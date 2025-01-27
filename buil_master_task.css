@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: cyan;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.row-divider td {
+    border-bottom: 2px solid black;
+}
+
+#status {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* Set specific widths for columns */
+td:nth-child(1), th:nth-child(1),
+td:nth-child(2), th:nth-child(2),
+td:nth-child(3), th:nth-child(3) {
+    width: 60px;
+}
+
+td:nth-child(4), th:nth-child(4) {
+    width: 200px;
+    word-wrap: break-word;
+    white-space: normal; /* Ensure text wraps */
+}
+
+td:nth-child(5), th:nth-child(5),
+td:nth-child(6), th:nth-child(6),
+td:nth-child(7), th:nth-child(7) {
+    width: 100px;
+}

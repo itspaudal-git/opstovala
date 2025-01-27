@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looker Error Tracker - Packout</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <!-- Firebase SDK and your custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="cred.js"></script> <!-- Firebase is initialized here -->
+    <script src="scripts.js"></script> <!-- Then you can use Firebase services here -->
+    <script src="tableScript.js"></script> <!-- Script for handling the table -->
+</head>
+<body>
+    <div class="top-right-buttons">
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        <button onclick="toggleChartType()">Toggle Chart Type</button>
+    </div>
+
+    <h1>Looker Error Tracker - Packout</h1>
+
+    <!-- Chart Section -->
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+    <div class="filter-container">
+        <label for="minTerm">Term Min:</label>
+        <input type="number" id="minTerm" name="minTerm">
+        <label for="maxTerm">Term Max:</label>
+        <input type="number" id="maxTerm" name="maxTerm">
+        <button onclick="applyTermRange()">Apply Range</button>
+        <button onclick="filterData('all')">View All</button>
+        <button onclick="filterData('year')">Year</button>
+        <button onclick="filterData('quarter')">Quarter</button>
+        <button onclick="filterData('month')">Month</button>
+        <button onclick="toggleFullScreen()">Full Screen</button>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container">
+        <h2>Data Table</h2>
+        <div class="table-filters">
+            <label for="searchTerm">Search by Term:</label>
+            <input type="number" id="minSearchTerm" placeholder="Min Term" oninput="filterTable()">
+            <input type="number" id="maxSearchTerm" placeholder="Max Term" oninput="filterTable()">
+            <label for="searchLocation">Search by Location:</label>
+            <input type="text" id="searchLocation" placeholder="Location" oninput="filterTable()">
+            <button onclick="downloadData('json')">Download JSON</button>
+            <button onclick="downloadData('xlsx')">Download XLSX</button>
+            <button onclick="downloadData('csv')">Download CSV</button>
+        </div>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Term</th>
+                    <th onclick="sortTable(1)">Location</th>
+                    <th onclick="sortTable(2)">Error</th>
+                    <th onclick="sortTable(3)">Total Cust Boxes</th>
+                    <th onclick="sortTable(4)">Total Meals Shipped</th>
+                    <th>Total Pick</th>
+                    <th>% Error Cust Boxes</th>
+                    <th>% Error Shipped Meals</th>
+                    <th>% Error Total Picks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+</html>

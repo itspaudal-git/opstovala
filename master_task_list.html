@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Data Management</title>
+    <link rel="stylesheet" href="aaa.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="credd.js"></script>
+        <!-- Header Section -->
+        <header class="header">
+            <div class="user-info" id="user-info">
+                <!-- User Greeting and Photo will be injected here via menu.js -->
+                <!-- Example:
+                <p>Welcome, Pau Dal</p>
+                <img src="user-photo-url" alt="User Photo">
+                -->
+            </div>
+            <button id="logout-button" class="logout-btn" style="display: none;">Logout</button>
+        </header>
+</head>
+<body>
+    <div class="container">
+        <div id="login-container">
+            <button id="login-button">Sign in with Tovala Email</button>
+        </div>
+
+        <!-- Section for displaying the project running status for each facility -->
+        <div class="project-status-row">
+            <!-- Tubeway -->
+            <div class="facility" id="facility-tubeway">
+                <h3>Tubeway</h3>
+                <p id="tubeway-status">No Project Running</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Project Hours</th>
+                            <th>Timer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tubeway-timers"></tbody>
+                </table>
+            </div>
+
+            <!-- Pershing -->
+            <div class="facility" id="facility-pershing">
+                <h3>Pershing</h3>
+                <p id="pershing-status">No Project Running</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Project Hours</th>
+                            <th>Timer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pershing-timers"></tbody>
+                </table>
+            </div>
+
+            <!-- Westvala -->
+            <div class="facility" id="facility-westvala">
+                <h3>Westvala</h3>
+                <p id="westvala-status">No Project Running</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Project Hours</th>
+                            <th>Timer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="westvala-timers"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Search and filter controls -->
+        <div class="controls">
+            <label for="term">Term:</label>
+            <input type="number" id="term" name="term" style="width: 100px;"> 
+
+            <label for="searchFacility">FC:</label>
+            <input type="text" id="searchFacility" placeholder="Start typing facility...">
+            <div id="facilitySuggestions" class="suggestions"></div>
+            
+            <label for="searchDay">Day:</label>
+            <input type="text" id="searchDay" placeholder="Start typing day...">
+            <div id="daySuggestions" class="suggestions"></div>
+
+            
+            <label for="searchProduct">Product:</label>
+            <input type="text" id="searchProduct" placeholder="Start typing product...">
+            <div id="productSuggestions" class="suggestions"></div>
+            
+            <label for="searchTask">Task:</label>
+            <input type="text" id="searchTask" placeholder="Start typing task...">
+            <div id="taskSuggestions" class="suggestions"></div>
+
+            <label for="searchStatus">Status:</label>
+            <input type="text" id="searchStatus" placeholder="Start typing status...">
+            <div id="statusSuggestions" class="suggestions"></div>
+            
+
+            <button id="filterBtn">Filter</button>
+        </div>
+
+        <!-- Table for detailed data -->
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Facility</th>
+                        <th>Meal</th>
+                        <th>Cycle</th>
+                        <th>Product</th>
+                        <th>Count</th>
+                        <th>Task</th>
+                        <th>Equipments</th>
+                        <th>Project Hours</th>
+                        <th>Man Hours</th>
+                        <th>Setup</th>
+                        <th>Start</th>
+                        <th>Break</th>
+                        <th>End</th>
+                        <th>Cleanup</th>
+                        <th>Produced Qty</th>
+                        <th>Lead</th>
+                        <th>Headcount</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                        <th>Day</th>
+                        <th>Actual Manhours</th>
+                        <th>Variance</th>
+                        <th>Teams</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <div id="success-message">Data updated successfully!</div>
+    <script src="master_task_list.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>

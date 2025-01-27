@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Data Management V2</title>
+    <link rel="stylesheet" href="air.css">
+    <!-- Add Firebase and credd.js back -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="credd.js"></script>
+    <style>
+        /* Scrollable container styling */
+        .scrollable-container {
+            position: relative;
+            height: 80vh; /* 80% of the viewport height */
+            overflow-y: auto;
+            scroll-behavior: smooth; /* Smooth scrolling */
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
+
+        .scrollable-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome/Safari */
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #007bff;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        .controls label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .controls input {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #007bff;
+            margin-right: 10px;
+            font-size: 14px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 100;
+        }
+
+        .fullscreen-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Production Projects</h1>
+        <div class="controls">
+            <label for="term">Term:</label>
+            <input type="number" id="term" name="term" style="width: 100px;">
+        
+            <label for="searchFacility">Search FC:</label>
+            <input type="text" id="searchFacility" placeholder="Start typing facility...">
+            <div id="facilitySuggestions" class="suggestions"></div>
+            
+            <label for="searchDay">Search Day:</label>
+            <input type="text" id="searchDay" placeholder="Start typing day...">
+            <div id="daySuggestions" class="suggestions"></div>
+            
+            <label for="searchTask">Search Task:</label>
+            <input type="text" id="searchTask" placeholder="Start typing task...">
+            <div id="taskSuggestions" class="suggestions"></div>
+        
+            <label for="searchStatus">Search Status:</label>
+            <input type="text" id="searchStatus" placeholder="Start typing status...">
+            <div id="statusSuggestions" class="suggestions"></div>
+        
+            <button id="filterBtn">Filter</button>
+        </div>
+
+        <!-- Scrollable table -->
+        <div class="scrollable-container" id="scrollableContainer">
+            <div id="facility-timers">
+                <!-- Dynamic content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Full-Screen Mode Toggle Button -->
+    <button class="fullscreen-btn" id="fullscreenBtn">Full Screen</button>
+
+    <script src="air.js"></script>
+    <script>
+        // JavaScript to handle Full Screen Toggle
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        fullscreenBtn.addEventListener('click', toggleFullScreen);
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                fullscreenBtn.textContent = 'Exit Full Screen';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    fullscreenBtn.textContent = 'Full Screen';
+                }
+            }
+        }
+        function autoScroll() {
+            const container = document.getElementById('scrollableContainer');
+            let direction = 1; // 1 for down, -1 for up
+            const scrollSpeed = 1; // Speed of scrolling (pixels per frame)
+
+            function scroll() {
+                // Scroll the container
+                container.scrollTop += direction * scrollSpeed;
+
+                // Check bounds and reverse direction
+                if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+                    direction = -1; // Reverse to scroll up
+                } else if (container.scrollTop <= 0) {
+                    direction = 1; // Reverse to scroll down
+                }
+
+                // Request the next animation frame
+                requestAnimationFrame(scroll);
+            }
+
+            // Start scrolling
+            requestAnimationFrame(scroll);
+        }
+
+        // Start auto-scrolling on page load
+        window.onload = autoScroll;
+
+    </script>
+</body>
+</html>

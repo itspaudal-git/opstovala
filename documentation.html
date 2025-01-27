@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .navbar button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .navbar button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <!-- Include Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="cred.js"></script> <!-- Your existing Firebase configuration -->
+</head>
+<body>
+    <div class="navbar" id="navbar">
+        <button onclick="window.location.href='buil_master_task.html'">Wiptags and Sleeving Verificaiton</button>
+        <button onclick="window.location.href='sot.html'">Add-on/ Decoupled Add-on</button>
+        <button onclick="window.location.href='verificationv1.html'">Portion & Cooking Verification</button>
+        <button onclick="window.location.href='bol.html'">BOL</button>
+        <button onclick="window.location.href='count.html'">Friday Count</button>
+
+    </div>
+</body>
+</html>

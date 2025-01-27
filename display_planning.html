@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Planning Timeline</title>
+  <!-- Link your CSS -->
+  <link rel="stylesheet" href="display_planning.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="filter-panel">
+      <label for="termInput">Term: </label>
+      <input type="text" id="termInput" />
+
+      <label for="facilityInput">Facility: </label>
+      <input type="text" id="facilityInput" list="facilityOptions"/>
+
+      <label for="dayInput">Day: </label>
+      <input type="text" id="dayInput" list="dayOptions"/>
+
+      <label for="taskInput">Task: </label>
+      <input type="text" id="taskInput" list="taskOptions"/>
+
+      <label for="equipmentInput">Equipment: </label>
+      <input type="text" id="equipmentInput" list="equipmentOptions"/>
+    </div>
+
+    <div class="timeline-container">
+      <!-- Time labels appear at the top of the Gantt chart -->
+      <div id="timeLabels" class="time-labels"></div>
+      <div id="ganttChart" class="gantt-chart"></div>
+    </div>
+  </div>
+
+  <!-- Datalists for dynamic dropdowns -->
+  <datalist id="dayOptions"></datalist>
+  <datalist id="taskOptions"></datalist>
+  <datalist id="equipmentOptions"></datalist>
+  <datalist id="facilityOptions"></datalist>
+
+  <!-- Firebase libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+  <!-- Your Firebase credentials (credd.js or inline) -->
+  <script src="credd.js"></script>
+
+  <!-- Main logic -->
+  <script src="display_planning.js"></script>
+</body>
+</html>

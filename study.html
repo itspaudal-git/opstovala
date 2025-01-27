@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Data Visualization</title>
+    <link rel="stylesheet" href="study.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="cred.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Study Data Visualization</h1>
+
+        <div class="controls">
+            <label for="searchStudy">Search Work Order or Task Type:</label>
+            <input type="text" id="searchStudy" placeholder="Start typing...">
+            <div id="suggestions" class="suggestions"></div>
+
+            <label for="varianceThreshold">Variance Threshold (%):</label>
+            <input type="number" id="varianceThreshold" placeholder="Enter Variance %" value="0"
+                style="width: 100px;">
+
+            <label for="minTerm">Term Min:</label>
+            <input type="number" id="minTerm" name="minTerm" style="width: 100px;">
+
+            <label for="maxTerm">Term Max:</label>
+            <input type="number" id="maxTerm" name="maxTerm" style="width: 100px;">
+
+            <button id="filterBtn">Filter</button>
+            <button id="darkModeToggle">Dark Mode</button>
+        </div>
+
+        <div class="chart-section">
+            <div class="dataset-toggle">
+                <label><input type="checkbox" id="toggleProjectHours" checked> Project Hours</label>
+                <label><input type="checkbox" id="toggleManHours" checked> Man Hours</label>
+                <label><input type="checkbox" id="toggleActualManhours" checked> Actual Manhours</label>
+                <label><input type="checkbox" id="toggleDuration" checked> Duration</label>
+            </div>
+            <div class="chart-container">
+                <canvas id="studyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <button id="downloadXlsx">Download XLSX</button>
+            <button id="downloadCsv">Download CSV</button>
+            <button id="downloadJson">Download JSON</button>
+        </div>
+
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th data-sort="term">Term</th>
+                        <th data-sort="Facility">Facility</th>
+                        <th data-sort="Meal">Meal</th>
+                        <th data-sort="Cycle">Cycle</th>
+                        <th data-sort="Work Order">Work Order</th>
+                        <th data-sort="Count">Count</th>
+                        <th data-sort="Task Type">Task Type</th>
+                        <th data-sort="Project Hours">Project Hours</th>
+                        <th data-sort="Man Hours">Man Hours</th>
+                        <th data-sort="Actual Manhours">Actual Manhours</th>
+                        <th data-sort="Duration">Duration</th>
+                        <th data-sort="Variance">Variance (%)</th>
+                    </tr>
+                </thead>
+                
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="study.js"></script>
+</body>
+
+</html>

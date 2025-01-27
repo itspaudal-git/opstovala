@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Report</title>
+    <link rel="stylesheet" href="production_report.css">
+    <style>
+        /* Style for H1 */
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        /* Style for the input section */
+        .qr-scan-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .qr-scan-section input {
+            width: 400px;
+            padding: 15px;
+            font-size: 1.5rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .qr-scan-section button {
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Style for H2 */
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        /* Style for the container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Style for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        /* Style for QR code reader */
+        #qr-reader {
+            display: none; /* Hidden by default */
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        /* Success message styling */
+        #success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            display: none; /* Initially hidden */
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease; /* Smooth transition */
+        }
+
+        #success-message.show {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Production</h1>
+        
+        <div class="qr-scan-section">
+            <input type="text" id="qrInput" placeholder="Scan or Enter QR Code" />
+            <button id="openCameraBtn">Scan QR Code with Camera</button>
+        </div>
+
+        <!-- Camera feed for scanning QR codes -->
+        <div id="qr-reader" style="width: 300px;"></div>
+
+        <!-- Product title dynamically populated -->
+        <h2 id="productTitle">Product</h2>
+
+        <table id="dataTable">
+            <thead>
+                <!-- Dynamically generated header will be populated here -->
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Success message div -->
+    <div id="success-message">Data updated successfully!</div>
+
+    <!-- Load Firebase libraries first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <!-- Load html5-qrcode for QR code scanning -->
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
+
+    <!-- Load credd.js after Firebase libraries -->
+    <script src="credd.js"></script>
+
+    <!-- Finally load your production report logic -->
+    <script src="production_report.js"></script>
+</body>
+</html>

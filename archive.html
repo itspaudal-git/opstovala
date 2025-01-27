@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive</title>
+    <link rel="stylesheet" href="archive.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="credd.js"></script>
+</head>
+<body>
+    <h1>Term  Management</h1> <!-- Centered title -->
+    <div id="container">
+        <div class="panel" id="masterTaskPanel">
+            <h2>Master Task</h2>
+            <div class="task-list" id="masterTaskList">
+                <!-- Master task items will be populated here -->
+            </div>
+        </div>
+        <div class="panel" id="archivePanel">
+            <h2>Archive</h2>
+            <div class="task-list" id="archiveList">
+                <!-- Archive items will be populated here -->
+            </div>
+        </div>
+    </div>
+    <script src="archive.js"></script>
+</body>
+</html>

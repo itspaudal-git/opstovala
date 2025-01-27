@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Yield Data</title>
+    <link rel="stylesheet" href="new_yield.css">
+</head>
+<body>
+    <div class="container">
+        <h1>New Yield Data</h1>
+        <div class="filters">
+            <input type="number" id="minTerm" placeholder="Min Term">
+            <input type="number" id="maxTerm" placeholder="Max Term">
+            <input type="text" id="facility" placeholder="Facility">
+            <input type="text" id="product" placeholder="Product">
+            <input type="text" id="task" placeholder="Task">
+            <button id="clearFilters">Clear</button>
+            <button id="applyFilters">Filter</button>
+            <input type="text" id="search" placeholder="Search...">
+        </div>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Facility</th>
+                    <th>Cycle</th>
+                    <th>Meal</th>
+                    <th>Product</th>
+                    <th>Task</th>
+                    <th>Count</th>
+                    <th>Yield</th>
+                    <th>Variance (Count vs Yield)</th>
+                    <th>Produced Qty</th>
+                    <th>Variance (Count vs Produced Qty)</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="credd.js"></script>
+    <script src="new_yield.js"></script>
+</body>
+</html>

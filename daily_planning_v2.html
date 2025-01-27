@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Planning & Tracking</title>
+    <link rel="stylesheet" href="daily_planning.css"> <!-- Include the existing CSS -->
+    <!-- <link rel="stylesheet" href="display_planning.css"> Include the new CSS for timeline view -->
+    <!-- Include Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Header Section -->
+        <header class="header">
+            <div class="user-info" id="user-info">
+                <!-- User Greeting and Photo will be injected here via menu.js -->
+                <!-- Example:
+                <p>Welcome, Pau Dal</p>
+                <img src="user-photo-url" alt="User Photo">
+                -->
+            </div>
+            <button id="logout-button" class="logout-btn" style="display: none;">Logout</button>
+        </header>
+    
+</head>
+<body>
+    <div id="login-container">
+        <button id="login-button">Sign in with Tovala Email</button>
+    </div>
+    <h1>Daily Planning </h1>
+
+    <!-- Custom Alert Container -->
+<div id="customAlert" style="display: none; position: fixed; top: 20px; right: 20px; background-color: yellow; border: 2px solid red; padding: 10px 20px; color: red; font-size: 16px; font-weight: bold; z-index: 9999; border-radius: 5px; box-shadow: 2px 2px 8px rgba(0,0,0,0.3);">
+    <span id="customAlertMessage"></span>
+</div>
+<div id="successNotification" style="display: none; position: fixed; top: 20px; right: 20px; background-color: green; color: white; padding: 10px; border-radius: 5px; z-index: 1000;">
+    Successfully Updated!
+</div>
+
+    <!-- Planning View -->
+    <div id="login-container">
+        <button id="copyButton" style="margin: 10px; padding: 10px 20px; font-size: 16px;">Copy Selected Rows with Styles</button>
+    </div>
+    <div id="planningView">
+        <div id="filters">
+            <label for="termInput">Term:</label>
+            <input type="text" id="termInput" placeholder="Enter term">
+
+            <label for="facilityInput">Facility:</label>
+            <input type="text" id="facilityInput" list="facilityOptions" placeholder="Select facility">
+            <datalist id="facilityOptions"></datalist>
+            
+            <label for="dayInput">Day:</label>
+            <input type="text" id="dayInput" list="dayOptions" placeholder="Select day">
+            <datalist id="dayOptions"></datalist>
+
+            <label for="taskInput">Task:</label>
+            <input type="text" id="taskInput" list="taskOptions" placeholder="Enter tasks, separated by commas">
+            <datalist id="taskOptions"></datalist>
+            
+            <label for="equipmentInput">Equipment:</label>
+            <input type="text" id="equipmentInput" list="equipmentOptions" placeholder="Select equipment">
+            <datalist id="equipmentOptions"></datalist>
+
+            <button id="searchButton">Search</button>
+            <button id="clearButton">Clear</button>
+        </div>
+        <div id="tableContainer">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th data-field="Cycle">Cycle</th>
+                        <th data-field="Meal">Meal</th>
+                        <th data-field="Product">Product</th>
+                        <th data-field="Count">Count</th>
+                        <th data-field="Priority">Priority</th>
+                        <th data-field="Day">Day</th>
+                        <th data-field="Lead">Lead</th>
+                        <th data-field="Equipment">Equipment</th>
+                        <th data-field="Project Hours">Project Hours</th>
+                        <th data-field="Start_Time">Start</th>
+                        <th data-field="Break_Time">Break Time</th>
+                        <th data-field="End_Time">End</th>
+                        <th data-field="Teams">Teams</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data rows will be populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script src="credd.js"></script>
+
+    <!-- Main JavaScript Files -->
+    <script src="menu.js"></script> <!-- Existing JS File -->
+    <script src="daily_planning_v2.js"></script> <!-- Existing JS File -->
+</body>
+</html>

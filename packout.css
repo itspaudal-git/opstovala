@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 50px;
+}
+
+h1 {
+    color: #333;
+}
+
+#info {
+    margin-bottom: 20px;
+}
+
+#info p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+#facilitySelect {
+    padding: 5px;
+    font-size: 16px;
+}
+
+#status {
+    font-size: 18px;
+    margin: 20px 0;
+    color: #555;
+}
+
+#talkButton {
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#talkButton:active {
+    background-color: #2a65c7;
+}
+
+#log {
+    margin-top: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+#log p {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+}

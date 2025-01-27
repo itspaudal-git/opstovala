@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Overtime Viewer</title>
+  <link rel="stylesheet" href="overtime.css">
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+  <script src="credd.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- <h1>Overtime Viewer</h1> -->
+    <div class="filters">
+      <label for="date">Select Date: <span id="selected-day"></span></label>
+      <input type="date" id="date" />
+      <label for="facility">Select Facility:</label>
+      <select id="facility">
+        <option value="">All</option>
+        <option value="Tubeway">Tubeway</option>
+        <option value="Pershing">Pershing</option>
+        <option value="Westvala">Westvala</option>
+      </select>
+      <div class="upload-section">
+        <label for="file-upload">Upload CSV/XLSX:</label>
+        <input type="file" id="file-upload" accept=".csv, .xlsx" />
+        <button id="upload-button">Upload</button>
+      </div>
+      
+    </div>
+    <table>
+      <thead id="table-head">
+        <!-- Thead will be dynamically populated -->
+      </thead>
+      <tbody id="data-table">
+        <!-- Rows will be dynamically populated here -->
+      </tbody>
+    </table>
+  </div>
+  <script src="overtime.js"></script>
+</body>
+</html>

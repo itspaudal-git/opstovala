@@ -1,0 +1,106 @@
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 40px; /* Adds spacing before the Logout button */
+}
+.user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px 15px;
+}
+
+
+.user-name {
+    font-size: 16px;
+    margin: 0;
+}
+
+.logout-btn {
+    background-color: #e84118;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 40px; /* Shift 4-letter equivalent space to the left */
+}
+
+
+.logout-btn:hover {
+    background-color: #c23616;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+#container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.panel {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 40%; /* Adjust the width to allow more content in the panels */
+    padding: 20px;
+    overflow-y: auto; /* Add scrolling if content overflows */
+    max-height: 500px; /* Limit the height of each panel */
+}
+
+/* Specific styling for each panel */
+#masterTaskPanel {
+    background-color: #e8f5e9; /* Light green for Master Task */
+}
+
+#archivePanel {
+    background-color: #fce4ec; /* Pink-red for Archive */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px; /* Add spacing below the title */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.task-list {
+    min-height: 300px;
+    border: 1px dashed #aaa;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.task-item {
+    background-color: #e3e3e3;
+    border: 1px solid #ccc;
+    padding: 5px 10px; /* Adjust padding for better fit */
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: calc(100% - 20px); /* Reduce width for better spacing */
+}
+
+.task-item.dragging {
+    opacity: 0.5;
+}
+
+.panel:hover .task-list {
+    background-color: #e7f7ff;
+}

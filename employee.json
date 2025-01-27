@@ -1,0 +1,25 @@
+{
+    "Employee": {
+      "Row1": {
+        "NAME": "John Doe",
+        "Position": "Manager",
+        "ID": "123",
+        "ST_Time": "08:00",
+        "Short Name": "JD",
+        "Date": "2024-09-27",
+        "Day": "Monday",
+        "Facility": "Head Office"
+      },
+      "Row2": {
+        "NAME": "Jane Smith",
+        "Position": "Assistant",
+        "ID": "124",
+        "ST_Time": "09:00",
+        "Short Name": "JS",
+        "Date": "2024-09-27",
+        "Day": "Monday",
+        "Facility": "Branch Office"
+      }
+    }
+  }
+  

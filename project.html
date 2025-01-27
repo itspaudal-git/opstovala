@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams</title>
+    <link rel="stylesheet" href="eod.css">
+
+    <!-- Firebase SDKs (Make sure to load these before Firebase config) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Firebase config with credentials -->
+    <script src="credd.js"></script> <!-- This contains your firebaseConfig -->
+
+</head>
+<body>
+    <div id="filters">
+        <label for="minTermInput">Min:</label>
+        <input type="number" id="minTermInput" placeholder="Enter minimum term">
+
+        <label for="maxTermInput">Max:</label>
+        <input type="number" id="maxTermInput" placeholder="Enter maximum term">
+
+        
+
+        <label for="facilityInput">FC:</label>
+        <input type="text" id="facilityInput" list="facilityOptions" placeholder="Select facility">
+        <datalist id="facilityOptions"></datalist>
+        
+        <label for="dayInput">Day:</label>
+        <input type="text" id="dayInput" list="dayOptions" placeholder="Select day">
+        <datalist id="dayOptions"></datalist>
+
+        <label for="teamsInput">Name:</label>
+        <input type="text" id="teamsInput" list="teamsOptions" placeholder="Select Name">
+        <datalist id="teamsOptions"></datalist>
+        
+        <label for="taskInput">Task:</label>
+        <input type="text" id="taskInput" list="taskOptions" placeholder="Enter tasks, separated by commas">
+        <datalist id="taskOptions"></datalist>
+        
+        <label for="equipmentInput">Equipment:</label>
+        <input type="text" id="equipmentInput" list="equipmentOptions" placeholder="Select equipment">
+        <datalist id="equipmentOptions"></datalist>
+        
+
+        <button id="searchButton">Search</button>
+        <button id="clearButton">Clear</button>
+        <button id="downloadButton">Download</button>
+    </div>
+    <div id="tableContainer">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th data-field="Cycle">Cycle</th>
+                    <th data-field="Meal">Meal</th>
+                    <th data-field="Product">Product</th>
+                    <th data-field="Count">Count</th>
+                    <th data-field="Team Member">Team</th>
+                    <th data-field="Equipment">Equipment</th>
+                    <th data-field="Project Hours">Project Hours</th>
+                    <th data-field="Start">Start</th>
+                    <th data-field="End">End</th>
+                    <th data-field="Duration">Duration</th>
+                    <th data-field="Variance">Variance</th>
+                    <th data-field="Status">Status</th>
+                    <th data-field="Term">Term</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be populated dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Include SheetJS library for XLSX download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+
+    <!-- Main JavaScript File -->
+    <script src="project.js"></script> <!-- Ensure this comes after auth_check.js -->
+</body>
+</html>

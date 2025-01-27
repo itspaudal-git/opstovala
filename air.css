@@ -1,0 +1,318 @@
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 40px; /* Adds spacing before the Logout button */
+}
+.user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px 15px;
+}
+
+
+.user-name {
+    font-size: 16px;
+    margin: 0;
+}
+
+.logout-btn {
+    background-color: #e84118;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 40px; /* Shift 4-letter equivalent space to the left */
+}
+
+
+.logout-btn:hover {
+    background-color: #c23616;
+}
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 7pt; /* Set smaller font size for the entire page */
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    transition: all 0.3s ease;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 12pt; /* Adjust header font size */
+    color: #007bff;
+}
+
+h3 {
+    font-size: 10pt; /* Adjust equipment header font size */
+    color: #007bff;
+    text-align: center;
+}
+
+.controls {
+    margin-bottom: 30px;
+}
+
+.controls label {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 8pt; /* Smaller font for labels */
+}
+
+.controls input {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #007bff;
+    margin-right: 10px;
+    font-size: 8pt; /* Smaller font for inputs */
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.row-container {
+    display: flex;
+    justify-content: space-between; /* Distribute space evenly between columns */
+    gap: 1cm; /* Adjust gap between columns */
+    margin: 20px 0;
+}
+
+.equipment-container {
+    flex: 0 0 calc(33.33% - 0.67cm); /* Divide width into three equal parts */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 8pt; /* Adjust font size inside equipment containers */
+}
+
+/* Adjusting the table layout for smaller font size */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed; /* Ensures fixed widths for specific columns */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-size: 7pt; /* Smaller font for table content */
+}
+
+th, td {
+    padding: 6px 8px; /* Reduce padding for smaller text */
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 7pt; /* Smaller font size for table cells */
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+    color: #333;
+}
+
+/* Set specific widths for Start, Timer, Status, and Run Rate */
+th:nth-child(2), td:nth-child(2), /* Start */
+th:nth-child(3), td:nth-child(3), /* Timer */
+th:nth-child(4), td:nth-child(4), /* Status */
+th:nth-child(5), td:nth-child(5)  /* Run Rate */
+{
+    width: 80px; /* Adjust widths for smaller content */
+}
+
+/* Let Product column take more space */
+th:nth-child(1), td:nth-child(1) {
+    width: auto;
+}
+
+/* Alternating row colors for better readability */
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e6f7ff; /* Light blue shade for even rows */
+}
+
+/* Row hover effect */
+tbody tr:hover {
+    background-color: #e0f7fa;
+}
+
+/* Suggestions box */
+.suggestions {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: 100%;
+    font-size: 7pt; /* Adjust font size for suggestions */
+}
+
+.suggestions div {
+    padding: 6px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+button {
+    cursor: pointer;
+    font-size: 7pt; /* Adjust font size for buttons */
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Full-screen button styling */
+.fullscreen-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 8pt; /* Adjust font size for full-screen button */
+    z-index: 100;
+}
+
+.fullscreen-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .controls input {
+        font-size: 7pt;
+    }
+
+    table th,
+    table td {
+        font-size: 7pt; /* Ensure smaller font size in tables */
+    }
+}
+
+@media (max-width: 768px) {
+    table th,
+    table td {
+        font-size: 6pt; /* Further reduce for smaller screens */
+    }
+
+    /* Adjust column widths for smaller screens */
+    td:nth-child(2),
+    td:nth-child(3),
+    td:nth-child(11) {
+        max-width: 80px;
+    }
+}
+
+/* Blink animations for timers */
+.blink-yellow {
+    background-color: yellow;
+    animation: blink-yellow 1s infinite;
+}
+
+.blink-pink {
+    background-color: pink;
+    animation: blink-pink 1s infinite;
+}
+
+.blink-red {
+    background-color: red;
+    animation: blink-red 1s infinite;
+}
+
+@keyframes blink-yellow {
+    50% { background-color: transparent; }
+}
+
+@keyframes blink-pink {
+    50% { background-color: transparent; }
+}
+
+@keyframes blink-red {
+    50% { background-color: transparent; }
+}
+
+/* Highlight colors for rows */
+.highlight-yellow {
+    background-color: rgb(241, 241, 98);
+}
+
+.highlight-red {
+    background-color: rgb(229, 60, 60);
+}
+
+.highlight-green {
+    background-color: lightgreen;
+}
+.highlight-orange {
+    background-color: #fb8f83; /
+}
+
+/* Scrollable container styling */
+.scrollable-container {
+    position: relative;
+    height: 100vh; /* Full height of the viewport */
+    overflow-y: auto;
+    scroll-behavior: smooth; /* Smooth scrolling */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.scrollable-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+}
+

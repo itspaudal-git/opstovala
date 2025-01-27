@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sync</title>
+  <link rel="stylesheet" href="count.css">
+</head>
+<body>
+  <div class="container">
+    
+    <div class="flex-container">
+      <!-- Form on the left -->
+      <div class="form-section">
+        <form id="term-form">
+          <label for="term">Enter Term:</label>
+          <input type="text" id="term" name="term" required>
+          <button type="submit">Load Data</button>
+          <button id="update-button">Sync</button>
+        </form>
+      </div>
+
+      <!-- Count Totals on the right -->
+      <div class="totals-section">
+        <p><strong>SLC Cycle 1:</strong> <span id="slc-cycle1-total">0</span></p>
+        <p><strong>SLC Cycle 2:</strong> <span id="slc-cycle2-total">0</span></p>
+        <p><strong>CHI Cycle 1:</strong> <span id="chicago-cycle1-total">0</span></p>
+        <p><strong>CHI Cycle 2:</strong> <span id="chicago-cycle2-total">0</span></p>
+        <!-- <p><strong>Total Meals:</strong> <span id="count-total-meals">0</span></p> -->
+      </div>
+    </div>
+
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>Network</th>
+          <th>Meal No</th>
+          <th>Cycle</th>
+          <th>Short Title</th>
+          <th>ID</th>
+          <th>Total Meals</th>
+          <th>Email Count</th>
+          <th>GLP1</th> <!-- New GLP1 Column -->
+          <th>Counts to Update</th> <!-- New Count Update Column -->
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Data will be populated here -->
+      </tbody>
+    </table>
+
+    <!-- Loading Message -->
+    <div id="loading-message" class="loading-message" style="display: none;">
+      <p>Please Wait, Count's are Being Sync'd...</p>
+    </div>
+
+    <!-- Success Message -->
+    <div id="success-message" class="success-message" style="display: none;">
+      <p>Counts are updated in Misevala! Please refresh Misevala to see the updated counts.</p>
+    </div>
+  </div>
+  <script src="auth_check.js"></script>
+  <script src="count.js"></script>
+</body>
+</html>

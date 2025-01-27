@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Data Visualization</title>
+    <link rel="stylesheet" href="error.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="cred.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Error Data Visualization</h1>
+
+        <div class="controls">
+            <label for="searchName">Search Name:</label>
+            <input type="text" id="searchName" placeholder="Start typing...">
+            <div id="suggestions" class="suggestions"></div>
+        
+            <label for="chartTypeSelect">Chart Type:</label>
+            <select id="chartTypeSelect">
+                <option value="bar">Bar</option>
+                <option value="line">Line</option>
+            </select>
+        
+            <label for="percentageThreshold">Percentage:</label>
+            <input type="number" id="percentageThreshold" placeholder="Enter Percentage" value="0" style="width: 100px;">
+            
+        
+            <button id="filterBtn">Filter</button>
+            <button id="darkModeToggle">Dark Mode</button>
+        </div>
+        
+        <div class="chart-section">
+            <div class="dataset-toggle">
+                <label><input type="checkbox" id="toggleQTY" checked> QTY</label>
+                <label><input type="checkbox" id="toggleERROR" checked> ERROR</label>
+                <label><input type="checkbox" id="togglePercentage" checked> Percentage</label>
+            </div>
+            <div class="chart-container">
+                <canvas id="errorChart"></canvas>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <button id="downloadXlsx">Download XLSX</button>
+            <button id="downloadCsv">Download CSV</button>
+            <button id="downloadJson">Download JSON</button>
+        </div>
+
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Cycle</th>
+                        <th>Facility</th>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Line</th>
+                        <th>Pick</th>
+                        <th>Name</th>
+                        <th>QTY</th>
+                        <th>ERROR</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="error.js"></script>
+</body>
+</html>

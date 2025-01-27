@@ -1,0 +1,190 @@
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 40px; /* Adds spacing before the Logout button */
+}
+.user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px 15px;
+}
+
+
+.user-name {
+    font-size: 16px;
+    margin: 0;
+}
+
+.logout-btn {
+    background-color: #e84118;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 40px; /* Shift 4-letter equivalent space to the left */
+}
+
+
+.logout-btn:hover {
+    background-color: #c23616;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.filter-panel {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.filter-panel label {
+    font-weight: bold;
+}
+
+.filter-panel input {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.filter-panel button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.filter-panel button:hover {
+    background-color: #ddd;
+}
+
+.timeline-container {
+    overflow-x: auto;
+    position: relative;
+}
+
+.time-labels {
+    display: flex;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 100;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.time-label {
+    flex: 1;
+    text-align: center;
+    padding: 5px 0;
+    border-right: 1px solid #ddd;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.gantt-chart {
+    border: 1px solid #ddd;
+    position: relative;
+    min-width: 1600px;
+    width: 100%;
+    height: 800px;
+    padding: 10px;
+    background: #fff;
+    overflow-x: scroll;
+}
+
+.task-bar {
+    position: absolute;
+    height: 50px;
+    line-height: 20px;
+    padding: 5px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 10;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    white-space: normal;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    border: 2px solid #27ae60; /* You can change the border color if desired */
+    font-size: 14px;
+    color: #000; /* Set default text color for contrast */
+}
+
+.time-labels-container {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 100;
+    display: flex;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.time-label {
+    flex: 1;
+    text-align: center;
+    padding: 5px 0;
+    border-right: 1px solid #ddd;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#currentTimeLine {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background-color: red;
+    z-index: 110;
+}
+
+#highlightedArea {
+    position: absolute;
+    height: 30px; /* Match the height of the time labels */
+    background-color: rgba(255, 255, 0, 0.5); /* Light yellow color with 50% transparency */
+    top: 0;
+    left: 0; /* Start from the left-most position */
+    z-index: 100; /* Below the time labels */
+    pointer-events: none; /* Prevent interactions */
+}
+.time-labels-container {
+    position: relative; /* Ensure container is relatively positioned for absolute child positioning */
+    background: #fff; /* Ensure the background is solid and not transparent */
+}
+
+#highlightedArea {
+    position: absolute;
+    height: 30px; /* Match the height of the time labels */
+    background-color: rgba(255, 255, 0, 0.5); /* Light yellow color with 50% transparency */
+    top: 0;
+    left: 0; /* Start from the left */
+    z-index: 90; /* Set z-index below the time labels */
+    pointer-events: none; /* Prevent interactions */
+    display: block !important; /* Force display to block */
+}

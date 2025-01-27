@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Employee Notes</title>
+  <link rel="stylesheet" href="manage_employee.css">
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <script src="credd.js"></script>
+  <header class="header">
+    <div class="user-info" id="user-info">
+        <!-- User Greeting and Photo will be injected here via menu.js -->
+        <!-- Example:
+        <p>Welcome, Pau Dal</p>
+        <img src="user-photo-url" alt="User Photo">
+        -->
+    </div>
+    <button id="logout-button" class="logout-btn" style="display: none;">Logout</button>
+    <div id="login-container">
+        <button id="login-button">Sign in with Tovala Email</button>
+    </div>
+</header>
+</head>
+<body>
+
+  <div class="container">
+    <!-- <h1>Manage Employee Notes</h1> -->
+    <div class="filter-controls">
+      <select id="facility-filter" class="facility-filter">
+        <option value="All">All Facilities</option>
+      </select>
+      <input type="text" id="search-bar" class="search-bar" placeholder="Search by ID, First Name, or Last Name...">
+      
+      <!-- Sorting controls -->
+      <label for="sort-by">Sort by:</label>
+      <select id="sort-by" class="sort-select">
+        <option value="FirstName">First Name</option>
+        <option value="Points">Points</option>
+        <option value="Date">Date</option>
+      </select>
+
+      <label for="sort-order">Order:</label>
+      <select id="sort-order" class="sort-select">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+    </div>
+    <table id="employee-table">
+      <thead>
+        <tr>
+          <th data-key="ID">ID</th>
+          <th data-key="Name">Name</th>
+          <th data-key="Date">Date</th>
+          <th data-key="Notes">Notes</th>
+          <th data-key="Points">Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows dynamically populated -->
+      </tbody>
+    </table>
+  </div>
+  <script src="menu.js"></script>
+  <script src="manage_employee.js"></script>
+</body>
+</html>

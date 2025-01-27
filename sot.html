@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOT meals</title>
+    <link rel="stylesheet" href="sot.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- Add this line to include jsPDF -->
+</head>
+<body>
+    <h1>SOT meals - Addon on/ Decoupled Add-on</h1>
+    
+    <!-- Facility and Term Selection -->
+    <label for="facilitySelect">Facility:</label>
+    <select id="facilitySelect">
+        <option value="chicago" selected>Chicago</option>
+        <option value="slc">Saltlake</option>
+    </select>
+
+    <label for="searchTerm">Term:</label>
+    <input type="text" id="searchTerm" placeholder="Start typing term...">
+    <div id="termSuggestions" class="suggestions"></div>
+    <button id="fetchData">Fetch Data</button>
+
+    <div id="status"></div>
+
+    <!-- Container Selection and Download Buttons on the right side -->
+    <div style="float: right;">
+        <!-- Facility and Term Selection -->
+        <label for="facilitySelect2">Network:</label>
+        <select id="facilitySelect2">
+            <option value="tubeway" selected>Tubeway</option>
+            <option value="pershing">Pershing</option>
+            <option value="westvala">Westvala</option>
+        </select>
+        
+        </select>
+        <button id="downloadCycle1">Wiptags Cycle 1</button>
+        <button id="downloadCycle2">Wiptags Cycle 2</button>   
+        <button id="downloadsleevec1">Sleeving Cycle 1</button>       
+        <button id="downloadsleevec2">Sleeving Cycle 2</button>  
+        <button id="downloadtowerc1">Tower Sheet Cycle 1</button>       
+        <button id="downloadtowerc2">Tower Sheet  Cycle 2</button>  
+        <br><br>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Meal No</th>
+                <th>Qty1</th>
+                <th>Qty2</th>
+                <th>Name</th>
+                <th>Sleeving Config</th>
+                <th>Sleeving Loc</th>
+                <th>Type</th>
+                <th>Task</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="sot.js"></script>
+</body>
+</html>

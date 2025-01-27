@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Data Visualization</title>
+    <link rel="stylesheet" href="master_task_view.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script src="credd.js"></script>
+    <script src="master_task_view.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Production Data Visualization</h1>
+
+        <div class="controls">
+            <label for="Term">Term:</label>
+            <input type="number" id="Term" name="Term" style="width: 100px;">
+            <label for="searchTask">Search Task:</label>
+            <input type="text" id="searchTask" placeholder="Start typing task...">
+            <div id="taskSuggestions" class="suggestions"></div>
+            
+            <label for="searchProduct">Search Product:</label>
+            <input type="text" id="searchProduct" placeholder="Start typing product...">
+            <div id="productSuggestions" class="suggestions"></div>
+              
+            <button id="filterBtn">Filter</button>
+        </div>        
+        
+        <div class="chart-section">
+            <div class="dataset-toggle">
+                <label><input type="checkbox" id="toggleProjectHours"> Project Hours</label>
+                <label><input type="checkbox" id="toggleManHours" checked> Man Hours</label>
+                <label><input type="checkbox" id="toggleTubeway" checked> Tubeway</label>
+                <label><input type="checkbox" id="togglePershing"> Pershing</label>
+                <label><input type="checkbox" id="toggleWestvala"> Westvala</label>
+            </div>
+            
+            <div class="dataset-toggle">
+                <label><input type="checkbox" id="toggleSunday" checked> Sunday</label>
+                <label><input type="checkbox" id="toggleMonday" checked> Monday</label>
+                <label><input type="checkbox" id="toggleTuesday" checked> Tuesday</label>
+                <label><input type="checkbox" id="toggleWednesday" checked> Wednesday</label>
+                <label><input type="checkbox" id="toggleThursday" checked> Thursday</label>
+                <label><input type="checkbox" id="toggleFriday" checked> Friday</label>
+                <label><input type="checkbox" id="toggleSaturday" checked> Saturday</label>
+            </div>
+            
+            
+            <div class="chart-container">
+                <canvas id="productionChart"></canvas>
+            </div>
+        </div>        
+
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th data-sort="term">Term</th>
+                        <th data-sort="Facility">Facility</th>
+                        <th data-sort="Meal">Meal</th>
+                        <th data-sort="Cycle">Cycle</th>
+                        <th data-sort="Product">Product</th>
+                        <th data-sort="Count">Count</th>
+                        <th data-sort="Task">Task</th>
+                        <th data-sort="Project Hours">Project Hours</th>
+                        <th data-sort="Man Hours">Man Hours</th>
+                        <th data-sort="Day">Day</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

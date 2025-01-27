@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* Your existing styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .navbar button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .navbar button:hover {
+            background-color: #0056b3;
+        }
+        #login-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        #user-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+    <!-- Include Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="cred.js"></script> <!-- Your existing Firebase configuration -->
+
+</head>
+<body>
+    <!-- Navbar 1 -->
+    <div class="navbar" id="navbar1" style="display: none;">
+        <button onclick="window.open('master_task_list.html', '_blank')">Master Task List</button>
+        <button onclick="window.open('display_planning.html', '_blank')">Equipment View</button>
+        <button onclick="window.open('daily_productionv2.html', '_blank')">Dashboard</button>
+        <button onclick="window.open('production_report.html', '_blank')">Scan Production</button>
+        <button onclick="window.open('daily_planning.html', '_blank')">Daily Planning</button>
+        <button onclick="window.open('daily_planning_v2.html', '_blank')">Daily Planning2</button>
+        <button onclick="window.open('eod.html', '_blank')">EOD Report</button>
+        <button onclick="window.open('project.html', '_blank')">Name Report</button>
+    </div>
+
+    <!-- Navbar 2 -->
+    <div class="navbar" id="navbar2" style="display: none;">
+        <button onclick="window.open('master_task_view.html', '_blank')">Production View</button>
+        <button onclick="window.open('air.html', '_blank')">View</button>
+        <button onclick="window.open('time_study.html', '_blank')">Time Studies</button>
+        <button onclick="window.open('transfer.html', '_blank')">Transfer</button>
+        <button onclick="window.open('documentation.html', '_blank')">Documentation</button>
+        <button onclick="window.open('employee.html', '_blank')">Daily Schdule</button>
+        <button onclick="window.open('overtime.html', '_blank')">Overtime</button>
+        <button onclick="window.open('manage_employee.html', '_blank')">Attandence</button>
+    </div>
+
+    <!-- Navbar 3 -->
+    <div class="navbar" id="navbar3" style="display: none;">
+        <button onclick="window.open('mph.html', '_blank')">MPH</button>
+        <button onclick="window.open('looker.html', '_blank')">Looker</button>
+        <button onclick="window.open('yield.html', '_blank')">Yield</button>
+        <button onclick="window.open('error.html', '_blank')">Term Error</button>
+        <button onclick="window.open('study.html', '_blank')">Old Time Studies</button>
+        <button onclick="window.open('packout.html', '_blank')">Packout</button>
+        <button onclick="window.open('daily_production.html', '_blank')">Production Full Screen</button>
+    </div>
+
+    <div id="login-container">
+        <button id="login-button">Sign in Tovala Email</button>
+    </div>
+
+    <div id="user-info" style="display: none;">
+        <p id="user-name"></p>
+        <button id="logout-button">Logout</button>
+    </div>
+
+    <script>
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        // Google Sign-In
+        document.getElementById('login-button').addEventListener('click', async () => {
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                const result = await auth.signInWithPopup(provider);
+                const user = result.user;
+
+                // Check if the email domain is @tovala.com
+                const email = user.email;
+                if (email.endsWith('@tovala.com')) {
+                    // Allow sign-in and proceed to the application
+                    document.getElementById('user-name').textContent = `Hello, ${user.displayName}`;
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('user-info').style.display = 'block';
+                    document.getElementById('navbar1').style.display = 'flex';
+                    document.getElementById('navbar2').style.display = 'flex';
+                    document.getElementById('navbar3').style.display = 'flex';
+                } else {
+                    // Sign out the user and display a message
+                    await auth.signOut();
+                    alert('Please login with your Tovala email address.');
+                }
+            } catch (error) {
+                console.error('Error signing in with Google:', error);
+            }
+        });
+
+        // Logout
+        document.getElementById('logout-button').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                document.getElementById('user-info').style.display = 'none';
+                document.getElementById('navbar1').style.display = 'none';
+                document.getElementById('navbar2').style.display = 'none';
+                document.getElementById('navbar3').style.display = 'none';
+                document.getElementById('login-container').style.display = 'block';
+            }).catch(error => {
+                console.error('Error signing out:', error);
+            });
+        });
+
+        // Check user state
+        auth.onAuthStateChanged(user => {
+            if (user && user.email.endsWith('@tovala.com')) {
+                document.getElementById('user-name').textContent = `Hello, ${user.displayName}`;
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('user-info').style.display = 'block';
+                document.getElementById('navbar1').style.display = 'flex';
+                document.getElementById('navbar2').style.display = 'flex';
+                document.getElementById('navbar3').style.display = 'flex';
+            } else {
+                if (user) {
+                    auth.signOut();
+                    alert('Please login with your Tovala email address.');
+                }
+                document.getElementById('login-container').style.display = 'block';
+                document.getElementById('user-info').style.display = 'none';
+                document.getElementById('navbar1').style.display = 'none';
+                document.getElementById('navbar2').style.display = 'none';
+                document.getElementById('navbar3').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

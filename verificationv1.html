@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portion | Cooking Verification</title>
+    <link rel="stylesheet" href="verification.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Verification Sheets</h1>
+        <div class="controls">
+            <!-- Term Search Input -->
+            <label for="searchTerm">Term:</label>
+            <input type="text" id="searchTerm" placeholder="Start typing term...">
+            <div id="termSuggestions" class="suggestions"></div>
+        
+            <!-- Search Inputs -->
+            <label for="searchFacility">Facility:</label>
+            <input type="text" id="searchFacility" placeholder="Start typing facility...">
+            <div id="facilitySuggestions" class="suggestions"></div>
+            
+            <label for="searchTask">Task:</label>
+            <input type="text" id="searchTask" placeholder="Start typing task...">
+            <div id="taskSuggestions" class="suggestions"></div>
+            
+            <label for="searchProduct">Product:</label>
+            <input type="text" id="searchProduct" placeholder="Start typing product...">
+            <div id="productSuggestions" class="suggestions"></div>
+            
+            <!-- Download Button -->
+            <!-- <button class="download-btn" id="downloadPdfButton">Download PDF</button> -->
+            <button id="downloadCookingPdfButton">Cooking Verificaiton</button>
+            <button id="downloadPortioningPdfButton">Portioning Verificaiton</button>
+
+        </div>
+        
+
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th data-sort="term">Term</th>
+                        <th data-sort="Facility">Facility</th>
+                        <th data-sort="Meal">Meal</th>
+                        <th data-sort="Cycle">Cycle</th>
+                        <th data-sort="Product">Product</th>
+                        <th data-sort="Count">Count</th>
+                        <th data-sort="Task">Task</th>
+                        <th data-sort="Equipment">Equipment</th>
+                        <th data-sort="Project Hours">Project Hours</th>
+                        <th data-sort="Man Hours">Man Hours</th>
+                        <th data-sort="Day">Day</th>
+                        <th>Generate PDF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data Rows Will Go Here -->
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <!-- jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+
+    <!-- Your Firebase credentials -->
+    <script src="credd.js"></script>
+
+    <!-- Your main JavaScript file -->
+    <script src="verificationv1.js"></script>
+</body>
+</html>

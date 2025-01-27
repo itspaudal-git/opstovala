@@ -1,0 +1,283 @@
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 40px; /* Adds spacing before the Logout button */
+}
+.user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px 15px;
+}
+
+
+.user-name {
+    font-size: 16px;
+    margin: 0;
+}
+
+.logout-btn {
+    background-color: #e84118;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 40px; /* Shift 4-letter equivalent space to the left */
+}
+
+
+.logout-btn:hover {
+    background-color: #c23616;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff; /* Light mode color */
+    transition: color 0.3s ease;
+}
+
+.controls,
+.chart-section,
+.download-section,
+.table-container {
+    margin-bottom: 20px;
+}
+
+.controls label,
+.download-section button {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.controls input,
+.controls select,
+.controls button,
+.download-section button {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    font-size: 16px;
+    background-color: #ffffff; /* Neutral background color */
+    color: #333333; /* Neutral text color */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.download-section button {
+    margin-top: 10px;
+}
+
+.chart-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dataset-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.chart-container {
+    width: 100%;
+    height: 500px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* General table cell styling with wrapping */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    table-layout: fixed; /* Ensures equal column width distribution */
+}
+
+th,
+td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: normal; /* Enable wrapping */
+    word-wrap: break-word; /* Enable wrapping for long words */
+}
+
+/* Specific styling for the Name column */
+th:nth-child(8),
+td:nth-child(8) {
+    white-space: nowrap; /* Disable wrapping for Name column */
+    text-overflow: ellipsis; /* Add ellipsis if text is too long */
+    overflow: hidden; /* Hide overflowed text */
+}
+
+th,
+td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+    background-color: #1e1e1e;
+    color: #ddd;
+}
+
+.dark-mode .container {
+    background-color: #2e2e2e;
+}
+
+.dark-mode .dataset-toggle,
+.dark-mode .chart-container {
+    background-color: #3e3e3e;
+}
+
+.dark-mode th {
+    background-color: #555;
+}
+
+.dark-mode tbody tr:nth-child(odd) {
+    background-color: #4e4e4e;
+}
+
+.dark-mode tbody tr:nth-child(even) {
+    background-color: #3e3e3e;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode button,
+.dark-mode .download-section button {
+    background-color: #61dafb; /* Dark mode button background */
+    color: #1e1e1e; /* Dark mode button text color */
+    border: 1px solid #555;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+#darkModeToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Suggestions box styles */
+.suggestions {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: 100%;
+}
+
+.suggestions div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+/* Highlight for pink in light mode */
+.highlight-pink {
+    background-color: #ffc0cb !important; /* Light pink color with high priority */
+}
+
+/* Highlight for pink in dark mode */
+.dark-mode .highlight-pink {
+    background-color: #ff6f91; /* A darker shade of pink for dark mode */
+}
+
+/* Variance color styling */
+.variance-positive {
+    color: #00ff00; /* Bright green for visibility on both light and dark backgrounds */
+}
+
+.variance-negative {
+    color: #ff4d4d; /* Bright red for visibility on both light and dark backgrounds */
+}
+
+/* Additional styling for dark mode */
+.dark-mode .variance-positive {
+    color: #00ff00; /* Bright green in dark mode */
+}
+
+.dark-mode .variance-negative {
+    color: #ff4d4d; /* Bright red in dark mode */
+}
+
+/* Dark Mode H1 Styling */
+.dark-mode h1 {
+    color: #ddd; /* Keep h1 neutral in dark mode */
+}
+
+/* Dark Mode Button Hover State */
+.dark-mode button:hover {
+    background-color: #555;
+    color: #fff;
+}

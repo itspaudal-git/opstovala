@@ -1,0 +1,359 @@
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 40px; /* Adds spacing before the Logout button */
+}
+.user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px 15px;
+}
+
+
+.user-name {
+    font-size: 16px;
+    margin: 0;
+}
+
+.logout-btn {
+    background-color: #e84118;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 40px; /* Shift 4-letter equivalent space to the left */
+}
+
+
+.logout-btn:hover {
+    background-color: #c23616;
+}
+
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    transition: all 0.3s ease;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    color: #007bff;
+}
+
+.controls {
+    margin-bottom: 30px;
+}
+
+.controls label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.controls input {
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #007bff;
+    margin-right: 10px;
+    font-size: 18px;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Project Status Layout */
+.project-status-row {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.facility {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.facility h3 {
+    color: #007bff;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.facility-info p {
+    margin: 5px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Table styling */
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    table-layout: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 16px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+    color: #333;
+}
+
+/* Alternating row colors for better readability */
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e6f7ff; /* Light blue shade for even rows */
+}
+
+/* Row hover effect */
+tbody tr:hover {
+    background-color: #e0f7fa;
+}
+
+/* Remove column width limitations */
+th, td {
+    width: auto;
+}
+
+/* Suggestions box */
+.suggestions {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: 100%;
+}
+
+.suggestions div {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Full-screen button styling */
+.fullscreen-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 100;
+}
+
+.fullscreen-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .controls input {
+        font-size: 16px;
+    }
+
+    table th,
+    table td {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    table th,
+    table td {
+        font-size: 14px;
+    }
+
+    /* Adjust column widths for smaller screens */
+    td:nth-child(2),
+    td:nth-child(3),
+    td:nth-child(11) {
+        max-width: 100px;
+    }
+}
+
+/* Center alignment for specific columns */
+th:nth-child(1), td:nth-child(1),
+th:nth-child(3), td:nth-child(3),
+th:nth-child(6), td:nth-child(6),
+th:nth-child(8), td:nth-child(8),
+th:nth-child(11), td:nth-child(11),
+th:nth-child(14), td:nth-child(14),
+th:nth-child(15), td:nth-child(15),
+th:nth-child(19), td:nth-child(19),
+th:nth-child(20), td:nth-child(20),
+th:nth-child(9), td:nth-child(9) {
+    text-align: center;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.delete-btn:hover {
+    opacity: 0.8;
+}
+
+/* Blink animations for timers */
+.blink-yellow {
+    background-color: yellow;
+    animation: blink-yellow 1s infinite;
+}
+
+.blink-pink {
+    background-color: pink;
+    animation: blink-pink 1s infinite;
+}
+
+.blink-red {
+    background-color: red;
+    animation: blink-red 1s infinite;
+}
+
+@keyframes blink-yellow {
+    50% { background-color: transparent; }
+}
+
+@keyframes blink-pink {
+    50% { background-color: transparent; }
+}
+
+@keyframes blink-red {
+    50% { background-color: transparent; }
+}
+
+/* Table column size constraints */
+th:nth-child(1), td:nth-child(1), /* Term */
+th:nth-child(2), td:nth-child(2), /* Facility */
+th:nth-child(4), td:nth-child(4), /* Cycle */
+th:nth-child(6), td:nth-child(6), /* Count */
+th:nth-child(7), td:nth-child(7), /* Task */
+th:nth-child(8), td:nth-child(8) /* Project Hours */ {
+    min-width: 60px;
+    max-width: 80px;
+}
+
+th:nth-child(3), td:nth-child(3) { /* Product */
+    min-width: 150px;
+    max-width: 250px;
+    word-wrap: break-word;
+}
+
+th:nth-child(10), td:nth-child(10) { /* Lead */
+    min-width: 100px;
+    max-width: 150px;
+}
+
+th:nth-child(11), td:nth-child(11), /* Start */
+th:nth-child(12), td:nth-child(12), /* Break */
+th:nth-child(13), td:nth-child(13) /* End */ {
+    min-width: 80px;
+    max-width: 100px;
+}
+
+th:nth-child(14), td:nth-child(14), /* Duration */
+th:nth-child(15), td:nth-child(15), /* Status */
+th:nth-child(16), td:nth-child(16), /* Actions */
+th:nth-child(17), td:nth-child(17) /* Day */ {
+    min-width: 70px;
+    max-width: 90px;
+}
+.highlight-yellow {
+    background-color: rgb(241, 241, 98);
+}
+
+.highlight-red {
+    background-color: rgb(229, 60, 60);
+}
+
+.highlight-green {
+    background-color: lightgreen;
+}

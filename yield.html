@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yield Data Visualization</title>
+    <link rel="stylesheet" href="yield.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="cred.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Yield Data Visualization</h1>
+
+        <div class="controls">
+            <label for="searchProduct">Search Product Name:</label>
+            <input type="text" id="searchProduct" placeholder="Start typing...">
+            <div id="suggestions" class="suggestions"></div>
+        
+            <label for="chartTypeSelect">Chart Type:</label>
+            <select id="chartTypeSelect">
+                <option value="bar">Bar</option>
+                <option value="line">Line</option>
+            </select>
+        
+            <label for="minTerm">Min Term:</label>
+            <input type="number" id="minTerm" placeholder="Enter Min Term" value="0" style="width: 100px;">
+        
+            <button id="filterBtn">Filter</button>
+            <button id="darkModeToggle">Dark Mode</button>
+            <label><input type="checkbox" id="toggleVariance" checked> Variance</label>
+            <input type="number" id="varianceThreshold" placeholder="Variance Threshold" value="0" style="width: 100px;">
+        </div>
+        
+        
+
+        <div class="chart-section">
+            <div class="dataset-toggle">
+                <label><input type="checkbox" id="toggleTermNeeds" checked> Term Needs</label>
+                <label><input type="checkbox" id="toggleYield" checked> Yield</label>
+                <label><input type="checkbox" id="toggleActualProduced" checked> Actual Produced</label>
+            </div>
+            <div class="chart-container">
+                <canvas id="yieldChart"></canvas>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <button id="downloadXlsx">Download XLSX</button>
+            <button id="downloadCsv">Download CSV</button>
+            <button id="downloadJson">Download JSON</button>
+        </div>
+
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Location</th>
+                        <th>Product Name</th>
+                        <th>Meal No</th>
+                        <th>Cycle</th>
+                        <th>Type</th>
+                        <th>Term Needs</th>
+                        <th>Yield</th>
+                        <th>UoM</th>
+                        <th>Actual Produced</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="yield.js"></script>
+</body>
+</html>

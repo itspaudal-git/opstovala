@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredient</title>
+    <link rel="stylesheet" href="ingredient_pull.css">
+</head>
+<body>
+    <div class="fetcher-container">
+        <!-- <h1>Ingredient Data Fetcher</h1> -->
+        <div class="search-row">
+            <div class="input-group">
+                <label for="facilitySelect">Facility:</label>
+                <select id="facilitySelect">
+                    <option value="slc">Saltlake</option>
+                    <option value="chicago">Chicago</option>
+                    
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="termInput">Term:</label>
+                <input type="text" id="termInput" placeholder="Enter term...">
+            </div>
+            <button id="fetchButton">Fetch Data</button>
+            <button id="submitButton">Submit</button>
+            <div class="input-group">
+                <label for="searchInput">Search:</label>
+                <input type="text" id="searchInput" placeholder="Search...">
+            </div>
+            <div class="input-group">
+                <label for="loadTermInput">Load Term:</label>
+                <input type="text" id="loadTermInput" placeholder="Enter term to load...">
+                <button id="loadButton">Load Data</button>
+            </div>
+
+        </div>
+    </div>
+    <div id="dataDisplay"></div>
+<!-- Firebase v8 CDN Links -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="cred.js"></script>
+    <script src="ingredient_pull.js"></script>
+</body>
+</html>

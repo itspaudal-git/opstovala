@@ -1,0 +1,106 @@
+{
+    "tasks": [
+      {
+        "Task": "Dry Sachet Depositing",
+        "Equipment": ["Dry Bucket 1", "Dry Bucket 2", "Dry Bucket 3"]
+      },
+      {
+        "Task": "Band Sealing",
+        "Equipment": ["Bandsealer 1", "Bandsealer 2", "Bandsealer 3", "Bandsealer 4", "Bandsealer 5"]
+      },
+      {
+        "Task": "Liquid Sachet Depositing",
+        "Equipment": ["Dangan"]
+      },
+      {
+        "Task": "Tray Portioning and Sealing",
+        "Equipment": [
+          "GTRe 1 Tray Sealing Line",
+          "GTRe 2 Tray Sealing Line",
+          "GTRe 1 3rd Tray Sealing Line",
+          "GTRe 2 3rd Tray Sealing Line",
+          "SealMax Tray Sealing Line",
+          "GT4"
+        ]
+      },
+      {
+        "Task": "Cup Portioning",
+        "Equipment": [
+          "Manual Portioning Station 1",
+          "Manual Portioning Station 2",
+          "Manual Portioning Station 3",
+          "Manual Portioning Station 1 3rd",
+          "Manual Portioning Station 2 3rd",
+          "Manual Portioning Station 3 3rd"
+        ]
+      },
+      {
+        "Task": "Batch Mix",
+        "Equipment": [
+          "Large Tumbler 1",
+          "Large Tumbler 2",
+          "Small Tumbler 1",
+          "Bowl Mixing Station 1",
+          "Bowl Mixing Station 2"
+        ]
+      },
+      {
+        "Task": "Kettle",
+        "Equipment": [
+          "Kettle-80 1",
+          "Kettle-80 2",
+          "Kettle-80 3",
+          "Kettle-60",
+          "Tilt Skillet 1",
+          "Tilt Skillet 2",
+          "Candy Burner 1",
+          "Candy Burner 2",
+          "Kettle-1",
+          "Kettle-2",
+          "Kettle-3",
+          "Kettle 4-60",
+          "Skillet 1",
+          "Skillet 2"
+        ]
+      },
+      {
+        "Task": "Open Pneumatic",
+        "Equipment": ["Can Opener 1", "Manual Can Opener 1"]
+      },
+      {
+        "Task": "Oven",
+        "Equipment": ["Unox Combi Oven 1", "Unox Combi Oven 2", "Unox Combi Oven 3"]
+      },
+      {
+        "Task": "Sauce Mix",
+        "Equipment": ["Stick Blender STANDARD 1", "Stick Blender STANDARD 2", "Stick Blender STANDARD 3", "Stick Blender STANDARD 4"]
+      },
+      {
+        "Task": "Thaw",
+        "Equipment": ["Thaw Frozen","Thaw 1", "Thaw 2"]
+      },
+      {
+        "Task": "VCM",
+        "Equipment": ["Vertical Cutting Machine 1"]
+      },
+      {
+        "Task": "Packout",
+        "Equipment": ["Line 1", "Line 2"]
+      },
+      {
+        "Task": "Sleeving",
+        "Equipment": [
+          "Prep Station 1",
+          "Prep Station 2",
+          "Prep Station 3",
+          "Prep Station 4",
+          "Prep Station 5",
+          "Prep Station 6",
+          "Prep Station 7",
+          "Prep Station 8",
+          "Prep Station 9"
+        ]
+      }
+    ]
+  }
+  

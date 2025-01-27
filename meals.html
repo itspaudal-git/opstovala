@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meals</title>
+    <link rel="stylesheet" href="sot.css">
+</head>
+<body>
+    <h1>Regular Meals</h1>
+    <label for="searchTerm">Term:</label>
+    <input type="text" id="searchTerm" placeholder="Start typing term...">
+    <div id="termSuggestions" class="suggestions"></div>
+    <button id="fetchData">Fetch Data</button>
+    <div id="status"></div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Meal No</th>
+                <th>Qty1</th>
+                <th>Qty2</th>
+                <th>Tasks</th>a
+                <th>UoM</th>
+                <th>Location</th>
+                <th>Container</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="meals.js"></script>
+</body>
+</html>

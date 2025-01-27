@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer</title>
+    <link rel="stylesheet" href="transfer.css">
+</head>
+<body>
+    <h1>Bill of Lading - Transfer</h1>
+
+    <div id="termInputContainer">
+        <label for="termInput">Enter Term:</label>
+        <input type="text" id="termInput" placeholder="e.g., 403">
+        <button id="loadTerm">Load</button>
+    </div>
+    <div id="formContainer">
+        <div id="destinationToggleContainer">
+            <label for="destinationCheckbox">Toggle Destination:</label>
+            <input type="checkbox" id="destinationCheckbox" name="destinationCheckbox">
+            <span id="destinationLabel">Pershing</span>
+        </div>
+        
+        <div id="dayRunContainer">
+            <label for="dayDropdown">Day:</label>
+            <select id="dayDropdown"></select> <!-- Dynamically filled -->
+    
+            <label for="runDropdown">Run:</label>
+            <select id="runDropdown"></select> <!-- Dynamically filled -->
+            <button id="generateBOL">Generate BOL</button>
+            <button id="generatetransfer">Generate Transfer</button>
+        </div>
+    </div>
+    <!-- Datalists for autocomplete suggestions -->
+    <datalist id="itemOptions"></datalist>
+    <datalist id="typeOptions"></datalist>
+    <datalist id="transportOptions"></datalist>
+    <datalist id="dayOptions"></datalist>
+    
+    <div id="filterContainer">
+        <label for="itemFilter">Item:</label>
+        <input type="text" id="itemFilter" list="itemOptions">
+    
+        <label for="typeFilter">Type:</label>
+        <input type="text" id="typeFilter" list="typeOptions">
+    
+        <label for="transportFilter">Transported In:</label>
+        <input type="text" id="transportFilter" list="transportOptions">
+    
+        <label for="dayFilter">Day:</label>
+        <input type="text" id="dayFilter" list="dayOptions">
+    
+        <button id="applyFilters">Apply Filters</button>
+        <button id="clearFilters">Clear Filters</button>
+    </div>
+
+    <table id="bolTable">
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Cycle</th>
+                <th>Meal</th>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Qty</th>
+                <th>Unit</th>
+                <th>Transported In</th>
+                <th>Day</th>
+                <th>Run</th>
+                <th>Destination</th>
+                <th>Remarks</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody id="bolTableBody">
+            <!-- Data will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <!-- Success Notification -->
+    <div id="notification" class="notification">
+        Entry updated successfully!
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- Include jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script> <!-- Include jsPDF AutoTable -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+    <script src="credd.js"></script> <!-- Correct Firebase config -->
+    <script src="transfer.js"></script>
+    <script src="generate_transfer.js"></script> <!-- new Scirpt 
+</body>
+</html>

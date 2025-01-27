@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cooking and Cooling Data</title>
+  <link rel="stylesheet" href="cooking_data.css">
+</head>
+<body>
+  <!-- Header Section (Fixed) -->
+  <div class="header">
+    <h1>Cooking and Cooling Data</h1>
+    <div class="search-container">
+      <label for="termKey">Enter Term Key:</label>
+      <input type="text" id="termKey" placeholder="e.g., 12345">
+      <button onclick="fetchCookingData()">Fetch Data</button>
+    </div>
+  </div>
+
+  <!-- "Saved" Indicator -->
+  <div id="saved-indicator">Saved</div>
+
+  <!-- Table Section (Scrollable) -->
+  <div class="table-container">
+    <table id="data-table">
+        <thead>
+          <tr>
+            <th class="general-header">Term</th>
+            <th class="general-header">Meal</th>
+            <th class="general-header">Product</th>
+            <th class="general-header">Equipment</th>
+            <th class="general-header">Cart Number</th>
+            <th class="general-header">Cooking Temp</th>
+            <th class="general-header">CCP Met</th>
+            <th class="general-header">Initials</th>
+            <th class="general-header">Corrective Actions</th>
+            <th class="general-header">Stage 1 Time Below 135°F</th>
+            <th class="stage1-header">Stage 1 Cooling 1</th>
+            <th class="stage1-header">Stage 1 Cooling 1 Time</th>
+            <th class="stage1-header">Stage 1 Cooling 2</th>
+            <th class="stage1-header">Stage 1 Cooling 2 Time</th>
+            <th class="stage2-header">Stage 2 Cooling 3</th>
+            <th class="stage2-header">Stage 2 Cooling 3 Time</th>
+            <th class="stage2-header">Stage 2 Cooling 4</th>
+            <th class="stage2-header">Stage 2 Cooling 4 Time</th>
+            <th class="stage2-header">Stage 2 Cooling 5</th>
+            <th class="stage2-header">Stage 2 Cooling 5 Time</th>
+            <th class="stage2-header">Stage 2 Cooling 6</th>
+            <th class="stage2-header">Stage 2 Cooling 6 Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data rows will be inserted here by JavaScript -->
+        </tbody>
+      </table>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <script src="credd.js"></script>
+  <script src="cooking_data.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Packout Logger</title>
+    <link rel="stylesheet" href="packout.css">
+</head>
+<body>
+    <h1>Packout Logger</h1>
+    <div id="info">
+        <p>Term: <span id="termDisplay"></span></p>
+        <p>Day: <span id="dayDisplay"></span></p>
+        <label for="facilitySelect">Facility:</label>
+        <select id="facilitySelect">
+            <option value="Tubeway">Tubeway</option>
+            <option value="Saltlake">Saltlake</option>
+        </select>
+    </div>
+    <div id="status">Initializing...</div>
+    <div id="log"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script src="credd.js"></script>
+
+    <!-- Main JavaScript File -->
+    <script src="packout.js"></script>
+</body>
+</html>

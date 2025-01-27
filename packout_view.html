@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packout View</title>
+    <link rel="stylesheet" href="packout_view.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="credd.js"></script>
+    <script defer src="packout_view.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Packout View</h1>
+        <div class="search-bar">
+            <label for="searchTerm">Term:</label>
+            <input type="text" id="searchTerm" placeholder="Enter Term">
+
+            <label for="searchFacility">Facility:</label>
+            <input type="text" id="searchFacility" placeholder="Enter Facility">
+
+            <label for="searchDay">Day:</label>
+            <input type="text" id="searchDay" placeholder="Enter Day">
+
+            <button id="searchButton">Search</button>
+        </div>
+
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Meal</th>
+                    <th>Day</th>
+                    <th>Facility</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

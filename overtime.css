@@ -1,0 +1,135 @@
+/* Header Styles */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 40px; /* Adds spacing before the Logout button */
+}
+.user-info img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  padding: 10px 15px;
+}
+
+
+.user-name {
+  font-size: 16px;
+  margin: 0;
+}
+
+.logout-btn {
+  background-color: #e84118;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  margin-right: 40px; /* Shift 4-letter equivalent space to the left */
+}
+
+
+.logout-btn:hover {
+  background-color: #c23616;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filters label {
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+thead th {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+  padding: 12px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+thead th.sortable:hover {
+  background-color: #e2e6ea;
+}
+
+thead th::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  width: 0;
+  height: 0;
+}
+
+thead th.asc::after {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #333;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+thead th.desc::after {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #333;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+tbody td {
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+tbody tr:hover {
+  background-color: #e9f1ff;
+  transition: background-color 0.3s;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facility Performance Dashboard</title>
+    <link rel="stylesheet" href="style_mph.css">
+</head>
+<body>
+    <div id="darkModeToggle">Toggle Dark Mode</div>
+    <div class="container">
+        <h1>Facility Performance Dashboard</h1>
+        
+        <div class="controls">
+            <label for="minTerm">Min Term:</label>
+            <input type="number" id="minTerm">
+            
+            <label for="maxTerm">Max Term:</label>
+            <input type="number" id="maxTerm">
+
+            <label for="chartType">Chart Type:</label>
+            <select id="chartTypeSelect">
+                <option value="bar">Bar Chart</option>
+                <option value="line">Line Chart</option>
+            </select>
+
+            <button id="filterBtn">Filter</button>
+        </div>
+
+        <div class="chart-section">
+            <div class="dataset-toggle">
+                <label><input type="checkbox" id="toggleTotalScheduled"> Total Scheduled</label><br>
+                <label><input type="checkbox" id="toggleTotalNeeded" checked> Total Needed per Production</label><br>
+                <label><input type="checkbox" id="toggleHoursShort"> Hours Short</label><br>
+                <label><input type="checkbox" id="toggleTargetedHours"> Targeted Hours</label><br>
+                <label><input type="checkbox" id="toggleActualTotalNeeded"> Total Hours</label><br>
+                <label><input type="checkbox" id="toggleVariance"> Variance to Target Hours</label><br>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <button id="downloadXlsx">Download XLSX</button>
+            <button id="downloadCsv">Download CSV</button>
+            <button id="downloadJson">Download JSON</button>
+        </div>
+
+        <div class="table-container">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Term</th>
+                        <th>Facility</th>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Total Scheduled</th>
+                        <th>Total Needed per Production</th>
+                        <th>Hours Short</th>
+                        <th>Targeted Hours</th>
+                        <th>Total Hours</th> <!-- Updated label -->
+                        <th>Variance to Target Hours</th>
+                        <th>% Staff Scheduled Daily</th>
+                        <th>Total Staff Hours Targeted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script> <!-- For XLSX download -->
+    <script src="cred.js"></script>
+    <script src="scripts_mph.js"></script>
+</body>
+</html>

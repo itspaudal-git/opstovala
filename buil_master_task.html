@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meals</title>
+    <link rel="stylesheet" href="sot.css">
+</head>
+<body>
+    <h1>Regular Meals</h1>
+
+    <!-- Facility and Term Selection -->
+    <label for="facilitySelect">Facility:</label>
+    <select id="facilitySelect">
+        <option value="chicago" selected>Chicago</option>
+        <option value="slc">Saltlake</option>
+    </select>
+
+    <label for="searchTerm">Term:</label>
+    <input type="text" id="searchTerm" placeholder="Start typing term...">
+    <div id="termSuggestions" class="suggestions"></div>
+    <button id="fetchData">Fetch Data</button>
+
+    <div id="status"></div>
+
+    <!-- Container Selection and Download Buttons on the right side -->
+    <div style="float: right;">
+        <!-- Facility and Term Selection -->
+        <label for="facilitySelect2">Network:</label>
+        <select id="facilitySelect2">
+            <option value="tubeway" selected>Tubeway</option>
+            <option value="pershing">Pershing</option>
+            <option value="westvala">Westvala</option>
+        </select>
+        
+        </select>
+        <button id="downloadCycle1">Wiptags</button>
+        <button id="downloadCycle2">Wiptags C2</button>   
+        <button id="downloadsleevec1">Sleeving</button>       
+        <button id="downloadsleevec2">Sleeving C2</button>  
+        <button id="downloadtowerc1">Tower Sheet</button>       
+        <button id="downloadtowerc2">Tower Sheet C2</button>  
+        <button id="downloadcompc1">Component Sheet</button>       
+        <button id="downloadcompc2">Component Sheet C2</button>  
+        <br><br>
+    </div>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Meal No</th>
+                <th>Qty1</th>
+                <th>Qty2</th>
+                <th>Tasks</th>
+                <th>UoM</th>
+                <th>Location</th>
+                <th>Container</th>
+                <th>Day1</th>
+                <th>Day2</th>
+                <th>MAP</th>
+                <th>Tray</th>
+                <th>Task</th>
+                <th>Download C1</th>
+                <th>Download C2</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Load jsPDF first -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+
+
+
+    <!-- Your custom scripts -->
+    <script src="build_master_task.js"></script>
+    <script src="downloadcomp.js"></script>
+    <script src="prod_download.js"></script>
+    <script src="wiptags.js"></script> <!-- New script for combined downloads -->
+    <script src="wiptags2.js"></script> <!-- New script for combined downloads for sleeving -->
+    <script src="wiptags3.js"></script> <!-- New script for combined downloads for Towerrr -->
+
+</body>
+</html>

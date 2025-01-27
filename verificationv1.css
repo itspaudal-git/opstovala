@@ -1,0 +1,273 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+    background-color: #f7f8fc;
+    color: #333;
+}
+
+.container {
+    max-width: 100%; /* Utilize the full width of the screen */
+    margin: 0 auto;
+    padding: 10px 30px; /* Reduced padding to increase table width */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    display: flex; /* Updated to align the "Add Entry" button */
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    color: #007bff;
+    border-bottom: none; /* Removes the line under the heading */
+}
+
+.add-entry-btn {
+    background-color: #28a745; /* Green color for differentiation */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.add-entry-btn:hover {
+    background-color: #218838;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.controls label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.controls input {
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    flex-grow: 1;
+    min-width: 180px;
+    max-width: 220px;
+}
+
+.download-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #0056b3;
+}
+
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed; /* Enforce strict column widths */
+}
+
+th, td {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    overflow: hidden; /* Clip overflow content */
+    white-space: nowrap; /* Prevent text wrapping */
+    text-overflow: ellipsis; /* Ellipsis for clipped text */
+    text-align: left;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Specific Column Widths */
+td:nth-child(1), th:nth-child(1),
+td:nth-child(2), th:nth-child(2),
+td:nth-child(3), th:nth-child(3),
+td:nth-child(4), th:nth-child(4),
+td:nth-child(6), th:nth-child(6),
+td:nth-child(9), th:nth-child(9),
+td:nth-child(10), th:nth-child(10),
+td:nth-child(11), th:nth-child(11) {
+    width: 50px; /* Adjust this value based on the specific column */
+    text-align: center;
+}
+
+td:nth-child(7), th:nth-child(7),
+td:nth-child(8), th:nth-child(8) {
+    width: 110px;
+    text-align: center;
+}
+
+td:nth-child(12), th:nth-child(12) {
+    width: 150px;
+    text-align: center;
+}
+
+td:nth-child(5), th:nth-child(5) {
+    width: 200px;
+    text-align: center;
+}
+
+.generate-pdf-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.generate-pdf-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Suggestions Box */
+.suggestions {
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: 100%;
+}
+
+.suggestions div {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+.sort-asc::after {
+    content: ' ▲';
+    font-size: 0.8em;
+}
+
+.sort-desc::after {
+    content: ' ▼';
+    font-size: 0.8em;
+}
+
+/* Modal Form */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto; /* Adjusted for better visibility */
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    text-align: center;
+    color: #007bff;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.modal-content input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.modal-content button[type="submit"] {
+    background-color: #28a745; /* Match the "Add Entry" button color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+    .controls {
+        flex-direction: column;
+    }
+    
+    .controls input {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    h1 {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .add-entry-btn {
+        margin-top: 10px;
+        width: 100%;
+    }
+}

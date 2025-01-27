@@ -1,0 +1,211 @@
+/* Default (Light) Theme */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Top Right Buttons */
+.top-right-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+h1 {
+    margin: 40px 0;
+    color: #007bff;
+    text-align: center;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 1200px;
+    height: 60vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.filter-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button {
+    margin: 10px 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input[type="number"] {
+    width: 80px;
+    padding: 5px;
+    margin: 10px 10px;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+input[type="number"]::placeholder {
+    color: #666666;
+}
+
+@media screen and (min-width: 1200px) {
+    .chart-container {
+        width: 100%;
+        max-width: 1500px;
+    }
+}
+
+.table-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.table-container h2 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.table-filters {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.table-filters label {
+    color: #000000;
+}
+
+.table-filters input[type="number"],
+.table-filters input[type="text"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+table th,
+table td {
+    padding: 12px 15px;
+    text-align: left;
+    color: #000000;
+    border-bottom: 1px solid #dddddd;
+}
+
+table th {
+    background-color: #f1f1f1;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #dddddd;
+}
+
+/* Dark Mode Theme */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.dark-mode h1 {
+    color: #61dafb;
+}
+
+.dark-mode .chart-container {
+    padding: 10px;
+}
+
+.dark-mode .filter-container button {
+    background-color: #61dafb;
+    color: #1e1e1e;
+}
+
+.dark-mode .filter-container button:hover {
+    background-color: #21a1f1;
+}
+
+.dark-mode input[type="number"] {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #61dafb;
+}
+
+.dark-mode input[type="number"]::placeholder {
+    color: #888888;
+}
+
+.dark-mode .table-container {
+    background-color: #2b2b2b;
+}
+
+.dark-mode .table-container h2 {
+    color: #61dafb;
+}
+
+.dark-mode .table-filters label {
+    color: #ffffff;
+}
+
+.dark-mode .table-filters input[type="number"],
+.dark-mode .table-filters input[type="text"] {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #61dafb;
+}
+
+.dark-mode table th,
+.dark-mode table td {
+    color: #ffffff;
+    border-bottom: 1px solid #444444;
+}
+
+.dark-mode table th {
+    background-color: #333333;
+}
+
+.dark-mode table tr:nth-child(even) {
+    background-color: #3a3a3a;
+}
+
+.dark-mode table tr:hover {
+    background-color: #444444;
+}
+

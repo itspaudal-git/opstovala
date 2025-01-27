@@ -1,0 +1,333 @@
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 40px; /* Adds spacing before the Logout button */
+}
+.user-info img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    padding: 10px 15px;
+}
+
+
+.user-name {
+    font-size: 16px;
+    margin: 0;
+}
+
+.logout-btn {
+    background-color: #e84118;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-right: 40px; /* Shift 4-letter equivalent space to the left */
+}
+
+
+.logout-btn:hover {
+    background-color: #c23616;
+}
+/* General Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #343a40;
+    color: #fff;
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Container */
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+}
+
+/* Filter Controls */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nav-btn:hover {
+    background-color: #0056b3;
+}
+
+.date-input {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.search-bar {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    max-width: 300px;
+    flex-grow: 1;
+}
+
+/* Totals Summary Styling */
+.totals-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.totals-summary .summary-item {
+    background-color: #17a2b8;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: default;
+    text-align: center;
+}
+
+/* Summary Section */
+#department-summary,
+#position-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.summary-item {
+    position: relative;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.summary-item.total {
+    background-color: #28a745;
+}
+
+.summary-item:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Position Summary Styling */
+.position-summary .summary-item {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.position-summary .summary-item:hover {
+    background-color: #e0a800;
+}
+
+/* Tooltip */
+.summary-item[data-tooltip] {
+    position: relative;
+}
+
+.summary-item[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 50%;
+    top: 120%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
+    white-space: normal;
+    z-index: 10;
+    visibility: hidden;
+    opacity: 0;
+    overflow-y: auto;
+    max-height: 300px;
+    max-width: 400px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+.summary-item[data-tooltip]:hover::before {
+    visibility: visible;
+    opacity: 1;
+}
+
+.summary-item[data-tooltip]::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 110%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+}
+
+.summary-item[data-tooltip]:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .summary-item[data-tooltip]::before {
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90vw;
+    }
+}
+
+.summary-item[data-tooltip]::before::-webkit-scrollbar {
+    width: 10px;
+}
+
+.summary-item[data-tooltip]::before::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+
+.summary-item[data-tooltip]::before::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead th {
+    background-color: #343a40;
+    color: #fff;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+thead th:hover {
+    background-color: #495057;
+}
+
+tbody td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    font-size: 16px;
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+tbody td.off {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Notes cell styling */
+.notes-cell {
+    background-color: #fffdee;
+}
+
+/* Custom Context Menu Styling */
+.custom-context-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 150px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.context-menu-item {
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.context-menu-item:hover {
+    background-color: #f1f1f1;
+}
+
+table td select {
+    width: 100%;
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}

@@ -1,0 +1,245 @@
+/* Default (Light) Theme */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+
+.container {
+    max-width: 1400px; /* Increased the max-width for better spacing */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.controls,
+.chart-section,
+.download-section,
+.table-container {
+    margin-bottom: 20px;
+}
+
+.controls label,
+.download-section button {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.controls input,
+.controls select,
+.controls button,
+.download-section button {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.chart-section {
+    display: flex;
+    flex-direction: column; /* Changed to column for better vertical alignment */
+    align-items: center; /* Centered the items */
+    justify-content: center;
+    gap: 20px;
+}
+
+.dataset-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Increased gap for better spacing between checkboxes */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    width: 100%; /* Ensure full width to match chart */
+}
+
+.chart-container {
+    width: 100%; /* Ensure full width for the chart */
+    height: 500px; /* Set a fixed height for the chart */
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    table-layout: fixed;
+}
+
+th,
+td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 3in;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 1.5in;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+th:nth-child(1), td:nth-child(1),
+th:nth-child(10), td:nth-child(10) {
+    text-align: center;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+#darkModeToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Dark Mode Theme */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.dark-mode .container {
+    background-color: #2e2e2e;
+}
+
+.dark-mode h1 {
+    color: #61dafb;
+}
+
+.dark-mode .dataset-toggle,
+.dark-mode .chart-container {
+    background-color: #3e3e3e;
+}
+
+.dark-mode th,
+.dark-mode td {
+    color: #ffffff;
+    border-color: #444444;
+}
+
+.dark-mode th {
+    background-color: #333333;
+}
+
+.dark-mode tbody tr:nth-child(odd) {
+    background-color: #4e4e4e;
+}
+
+.dark-mode tbody tr:nth-child(even) {
+    background-color: #3e3e3e;
+}
+
+.dark-mode input,
+.dark-mode select,
+.dark-mode button {
+    background-color: #444;
+    color: #ddd;
+    border: 1px solid #555;
+}
+
+.dark-mode button {
+    background-color: #61dafb;
+    color: #1e1e1e;
+}
+
+.dark-mode button:hover {
+    background-color: #21a1f1;
+}
+
+#darkModeToggle.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Suggestions box styles */
+.suggestions {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: 100%;
+}
+
+.suggestions div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+/* Set specific column widths and text alignment */
+th:nth-child(11), td:nth-child(11) {
+    text-align: right;
+    width: 2in;
+}
+
+/* Variance color styling */
+.variance-positive {
+    color: #00ff00; /* Bright green for visibility on both light and dark backgrounds */
+}
+
+.variance-negative {
+    color: #ff4d4d; /* Bright red for visibility on both light and dark backgrounds */
+}
+
+/* Additional styling for dark mode */
+.dark-mode .variance-positive {
+    color: #00ff00; /* Bright green in dark mode */
+}
+
+.dark-mode .variance-negative {
+    color: #ff4d4d; /* Bright red in dark mode */
+}
