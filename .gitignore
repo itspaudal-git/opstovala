@@ -1,3 +1,4 @@
 # Ignore credential files
 cred.js
 credd.js
+.DS_Store
