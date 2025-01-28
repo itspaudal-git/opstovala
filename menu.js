@@ -35,8 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     { name: "Monitor", link: "air.html" },
                     { name: "Master Task List", link: "aaa.html" },
                     { name: "Equipment View", link: "display_planning.html" },
-                    { name: "Dashboard", link: "daily_productionv2.html" },
-                    { name: "Scan Production", link: "production_report.html" },
                     { name: "Daily Planning", link: "daily_planning_v2.html" },
                     { name: "EOD Report", link: "eod.html" },
                     { name: "Name Report", link: "project.html" },
@@ -109,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: "Quality", 
                 submenus: [
                     { name: "QA Dashboard", link: "quality.html" },
-                    { name: "BOL", link: "bol.html" }
+                    { name: "Cooking/Cooling", link: "cooking_data_view.html" }
                 ]
             },
             {
@@ -132,8 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     { name: "Master Task List", link: "master_task_list.html" },
                     { name: "Equipment View", link: "display_planning.html" },
                     { name: "Monitor", link: "air.html" },
-                    { name: "Dashboard", link: "daily_productionv2.html" },
-                    { name: "Scan Production", link: "production_report.html" },
                     { name: "Daily Planning", link: "daily_planning_v2.html" },
                     { name: "EOD Report", link: "eod.html" },
                     { name: "Name Report", link: "project.html" },
@@ -162,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: "Quality", 
                 submenus: [
                     { name: "QA Dashboard", link: "quality.html" },
-                    { name: "BOL", link: "bol.html" }
+                    { name: "Cooking/Cooling", link: "cooking_data.html" }
                 ]
             },
             {
