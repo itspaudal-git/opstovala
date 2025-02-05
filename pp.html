@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packout Configuration</title>
+    <link rel="stylesheet" href="pp.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="credd.js"></script> <!-- Your Firebase config file -->
+</head>
+<body>
+    <div class="container">
+        <h1>Packout Configuration</h1>
+        
+        <div class="search-bar">
+            <label for="searchTerm">Term:</label>
+            <input type="text" id="searchTerm" placeholder="Enter Term" value="421">
+            
+            <label for="searchFacility">Facility:</label>
+            <select id="searchFacility">
+                <option value="">Select Facility</option>
+            </select>
+
+            <label for="searchDay">Date:</label>
+            <select id="searchDay">
+                <option value="">Select Date</option>
+            </select>
+        </div>
+
+        <table id="packoutTable">
+            <thead>
+                <tr>
+                    <th>Facility</th>
+                    <th>Cycle</th>
+                    <th>Carrier, Origin</th>
+                    <th>Origin</th>
+                    <th>Date</th>
+                    <!-- Dynamic columns will be inserted here -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="pp.js"></script>
+</body>
+</html>

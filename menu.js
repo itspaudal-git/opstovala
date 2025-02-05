@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     { name: "Master Task List", link: "aaa.html" },
                     { name: "Equipment View", link: "display_planning.html" },
                     { name: "Daily Planning", link: "daily_planning_v2.html" },
+                    { name: "Jen", link: "master_task_view.html" },
                     { name: "EOD Report", link: "eod.html" },
                     { name: "Name Report", link: "project.html" },
                     { name: "Daily Schedule", link: "employee.html" },
@@ -127,10 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 name: "Production", 
                 submenus: [
-                    { name: "Master Task List", link: "master_task_list.html" },
+                    { name: "Master Task List", link: "aaa.html" },
                     { name: "Equipment View", link: "display_planning.html" },
                     { name: "Monitor", link: "air.html" },
+                    { name: "Dashboard", link: "daily_productionv2.html" },
                     { name: "Daily Planning", link: "daily_planning_v2.html" },
+                    { name: "Jen", link: "master_task_view.html" },
                     { name: "EOD Report", link: "eod.html" },
                     { name: "Name Report", link: "project.html" },
                     { name: "Wip/Tower/Sleeving Verification", link: "buil_master_task.html" },
@@ -158,7 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: "Quality", 
                 submenus: [
                     { name: "QA Dashboard", link: "quality.html" },
-                    { name: "Cooking/Cooling", link: "cooking_data.html" }
+                    { name: "Cooking/Cooling", link: "cooking_data.html" },
+                    { name: "Line Haul", link: "linehaul.html" }
                 ]
             },
             {

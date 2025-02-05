@@ -1,4 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Function to calculate the current term number based on the current week
+    function calculateCurrentTerm() {
+        const baseTerm = 403; // Starting term
+        const startDate = new Date('2024-09-15'); // Starting date of term 403
+        const currentDate = new Date();
+        const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
+        const weeksPassed = Math.floor((currentDate - startDate) / millisecondsPerWeek);
+        return baseTerm + weeksPassed;
+    }
+    
+    // Set current term onload
+    const termInput = document.getElementById('Term');
+    termInput.value = calculateCurrentTerm();
+
+    // Day toggles: uncheck all days except tomorrow.
+    const dayToggles = {
+        Sunday: document.getElementById('toggleSunday'),
+        Monday: document.getElementById('toggleMonday'),
+        Tuesday: document.getElementById('toggleTuesday'),
+        Wednesday: document.getElementById('toggleWednesday'),
+        Thursday: document.getElementById('toggleThursday'),
+        Friday: document.getElementById('toggleFriday'),
+        Saturday: document.getElementById('toggleSaturday')
+    };
+    const today = new Date();
+    const tomorrowIndex = (today.getDay() + 1) % 7;
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const tomorrowName = days[tomorrowIndex];
+    Object.keys(dayToggles).forEach(day => {
+        dayToggles[day].checked = (day === tomorrowName);
+    });
+
     // Initialize Firebase
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
@@ -10,12 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let rawData = [];
     let filteredData = [];
     let facilityOptions = new Set();
-    let taskOptions = new Set();
-    let productOptions = new Set();  // Store product options
+    let equipmentOptions = new Set();  // Replaces taskOptions
+    let productOptions = new Set();      // Store product options
     let dayOptions = new Set();
 
     // Get references to DOM elements
-    const termInput = document.getElementById('Term');
+    // termInput already obtained above.
     const filterBtn = document.getElementById('filterBtn');
     const productionChartCtx = document.getElementById('productionChart').getContext('2d');
 
@@ -25,17 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const tubewayToggle = document.getElementById('toggleTubeway');
     const pershingToggle = document.getElementById('togglePershing');
     const westvalaToggle = document.getElementById('toggleWestvala');
-
-    // Day toggles
-    const dayToggles = {
-        Sunday: document.getElementById('toggleSunday'),
-        Monday: document.getElementById('toggleMonday'),
-        Tuesday: document.getElementById('toggleTuesday'),
-        Wednesday: document.getElementById('toggleWednesday'),
-        Thursday: document.getElementById('toggleThursday'),
-        Friday: document.getElementById('toggleFriday'),
-        Saturday: document.getElementById('toggleSaturday')
-    };
 
     // Chart variable
     let productionChart;
@@ -51,8 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function populateFilters() {
         filteredData = [];
         facilityOptions.clear();
-        taskOptions.clear();
-        productOptions.clear();  // Add this to collect products
+        equipmentOptions.clear();
+        productOptions.clear();  // Collect products
         dayOptions.clear();
 
         for (let term in rawData) {
@@ -68,8 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
 
                     if (entry.Facility) facilityOptions.add(entry.Facility);
-                    if (entry.Task) taskOptions.add(entry.Task);
-                    if (entry.Product) productOptions.add(entry.Product);  // Collect products
+                    if (entry.Equipment) equipmentOptions.add(entry.Equipment);  // Collect equipment
+                    if (entry.Product) productOptions.add(entry.Product);          // Collect products
                     if (entry.Day) dayOptions.add(entry.Day);
                 }
             }
@@ -147,12 +168,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Use the setupAutoComplete function for both Task and Product
+    // Use the setupAutoComplete function for both Equipment and Product
     function setupSearchAutoComplete() {
-        const taskOptionsArray = Array.from(taskOptions);
+        const equipmentOptionsArray = Array.from(equipmentOptions);
         const productOptionsArray = Array.from(productOptions);
 
-        setupAutoComplete('searchTask', 'taskSuggestions', taskOptionsArray);
+        setupAutoComplete('searchEquipment', 'equipmentSuggestions', equipmentOptionsArray);
         setupAutoComplete('searchProduct', 'productSuggestions', productOptionsArray);
     }
 
@@ -175,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${entry.Cycle || ''}</td>
                 <td>${entry.Product || ''}</td>
                 <td>${entry.Count || ''}</td>
-                <td>${entry.Task || ''}</td>
+                <td>${entry.Equipment || ''}</td>
                 <td>${parseFloat(entry['Project Hours'] || 0).toFixed(2)}</td>
                 <td>${parseFloat(entry['Man Hours'] || 0).toFixed(2)}</td>
                 <td>${entry.Day || ''}</td>
@@ -184,31 +205,31 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Function to group data by task
-    function groupDataByTask(data) {
-        const taskMap = {};
+    // Function to group data by equipment
+    function groupDataByEquipment(data) {
+        const equipmentMap = {};
 
         data.forEach(entry => {
-            const task = entry.Task || '';
-            if (!taskMap[task]) {
-                taskMap[task] = {
-                    task: task,
+            const equipment = entry.Equipment || '';
+            if (!equipmentMap[equipment]) {
+                equipmentMap[equipment] = {
+                    equipment: equipment,
                     manHours: 0,
                     projectHours: 0
                 };
             }
-            taskMap[task].manHours += parseFloat(entry['Man Hours'] || 0);
-            taskMap[task].projectHours += parseFloat(entry['Project Hours'] || 0);
+            equipmentMap[equipment].manHours += parseFloat(entry['Man Hours'] || 0);
+            equipmentMap[equipment].projectHours += parseFloat(entry['Project Hours'] || 0);
         });
 
-        return Object.values(taskMap);
+        return Object.values(equipmentMap);
     }
 
-    // Update chart function with grouped tasks and data labels
+    // Update chart function with grouped equipment and data labels
     function updateChart(data) {
-        const groupedData = groupDataByTask(data);  // Group the data by task
+        const groupedData = groupDataByEquipment(data);  // Group the data by equipment
 
-        const labels = groupedData.map(entry => entry.task);  // X-axis: Task
+        const labels = groupedData.map(entry => entry.equipment);  // X-axis: Equipment
         const datasets = [];
 
         // Conditionally include the 'Man Hours' dataset based on the toggle
@@ -270,11 +291,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Filter data based on the term input and checkboxes
     function displayData() {
         const termElement = document.getElementById('Term');
-        const searchTaskElement = document.getElementById('searchTask');
+        const searchEquipmentElement = document.getElementById('searchEquipment');
         const searchProductElement = document.getElementById('searchProduct');
 
         const term = termElement ? parseInt(termElement.value, 10) : '';
-        const searchTask = searchTaskElement ? searchTaskElement.value.toLowerCase() : '';
+        const searchEquipment = searchEquipmentElement ? searchEquipmentElement.value.toLowerCase() : '';
         const searchProduct = searchProductElement ? searchProductElement.value.toLowerCase() : '';
 
         console.log('Filtering data for term:', term);
@@ -299,14 +320,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return Object.keys(dayToggles).some(dayName => dayToggles[dayName].checked && day === dayName);
         });
 
-        // Step 4: Filter by task (if searchTask is provided)
-        const filteredTasks = filteredDays.filter(entry => {
-            const task = entry.Task ? entry.Task.toLowerCase() : '';
-            return searchTask === '' || task.includes(searchTask);
+        // Step 4: Filter by equipment (if searchEquipment is provided)
+        const filteredEquipments = filteredDays.filter(entry => {
+            const equipment = entry.Equipment ? entry.Equipment.toLowerCase() : '';
+            return searchEquipment === '' || equipment.includes(searchEquipment);
         });
 
         // Step 5: Filter by product (if searchProduct is provided)
-        const filteredProducts = filteredTasks.filter(entry => {
+        const filteredProducts = filteredEquipments.filter(entry => {
             const product = entry.Product ? entry.Product.toLowerCase() : '';
             return searchProduct === '' || product.includes(searchProduct);
         });
@@ -333,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Attach the keypress event to the input fields
     document.getElementById('Term').addEventListener('keypress', handleEnterKeyPress);
-    document.getElementById('searchTask').addEventListener('keypress', handleEnterKeyPress);
+    document.getElementById('searchEquipment').addEventListener('keypress', handleEnterKeyPress);
     document.getElementById('searchProduct').addEventListener('keypress', handleEnterKeyPress);
 
     // Add event listeners to checkboxes to trigger filtering

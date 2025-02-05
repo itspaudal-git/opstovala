@@ -1,0 +1,126 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Section (Fixed) */
+.header {
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header h1 {
+  text-align: center;
+  color: #333;
+  margin: 0;
+}
+
+.search-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.search-container label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.search-container input {
+  padding: 8px;
+  width: 200px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-container button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Table Section (Scrollable) */
+.table-container {
+  width: 90%;
+  margin: 20px auto;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 1200px; /* Ensure table is wide enough for horizontal scrolling */
+}
+
+thead {
+  background-color: #f8f8f8;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center; /* Center all table data */
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+th {
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Wrap header text for columns 7 to 22 */
+#data-table thead th:nth-child(n+7):nth-child(-n+22) {
+  max-width: 13ch; /* Approx. 13 characters wide */
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words if necessary */
+  /* Optional: Adjust padding or font-size if needed */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  table {
+      min-width: 1000px;
+  }
+}
+
+@media (max-width: 992px) {
+  table {
+      min-width: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  table {
+      min-width: 600px;
+  }
+}
+
+@media (max-width: 576px) {
+  table {
+      min-width: 400px;
+  }
+}

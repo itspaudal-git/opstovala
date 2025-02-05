@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Linehaul Error</title>
+  <!-- Include your CSS -->
+  <link rel="stylesheet" href="linehaul.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Linehaul Error Tracker</h1>
+
+    <div class="filters">
+      <label for="calculatedTerm">Term:</label>
+      <!-- This field is auto-populated but NOT readonly, so user can override. -->
+      <input type="text" id="calculatedTerm" />
+
+      <label for="searchFacility">Facility:</label>
+      <select id="searchFacility">
+        <option value="All">All</option>
+        <option value="Tubeway">Tubeway</option>
+        <option value="Westvala">Westvala</option>
+      </select>
+
+        <!-- New Day filter -->
+        <label for="searchDay">Day:</label>
+        <select id="searchDay">
+            <option value="All">All</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+        </select>
+
+      <label for="searchCycle">Cycle:</label>
+      <select id="searchCycle">
+        <option value="All">All</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+      </select>
+
+      <label for="searchLine">Line:</label>
+      <select id="searchLine">
+        <option value="All">All</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+      </select>
+
+
+      <button id="btnSearch">Search</button>
+    </div>
+
+    <table id="resultsTable"></table>
+  </div>
+
+  <!-- Firebase SDK v8.6.1 -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+  <!-- Your own Firebase creds in a separate file -->
+  <script src="credd.js"></script>
+  
+  <!-- Our main JS logic -->
+  <script src="linehaul.js"></script>
+</body>
+</html>
