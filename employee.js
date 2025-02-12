@@ -1,3 +1,24 @@
+/****************************************************
+ * employee.js
+ *
+ * This file handles:
+ *   1) Real-time fetching of Employees, Time Off, Late, Early, Volunteer, Absent, and Notes data
+ *   2) Filtering and searching employees
+ *   3) Summaries by Department, Position, and Total Hours
+ *   4) Excluding days from the Department Summary, Position Summary,
+ *      and Totals Summary if that day’s notes match any of:
+ *         [
+ *           "No Call/No Show",
+ *           "Called out after start of shift",
+ *           "Callout",
+ *           "Bereavement",
+ *           "Dr Notes",
+ *           "Callout (Sick Time)"
+ *         ]
+ *      (This applies just like hours, so that day won't be counted
+ *       in department/position totals if “excluded” applies.)
+ ****************************************************/
+
 // Initialize Firebase if not already done
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -21,11 +42,6 @@ if (!firebase.apps.length) {
   const facilityFilterSelect = document.getElementById("facility-filter");
   const copyNamesBtn = document.getElementById("copy-names-btn");
   
-  let contextMenu;
-  let allEmployees = [];
-  let sortDirection = {};
-  let employeeNotesData = {};
-  
   // We'll store the raw DB data here in real-time
   let employeesData = {};
   let timeOffData = {};
@@ -45,6 +61,11 @@ if (!firebase.apps.length) {
     absent: false,
     notes: false
   };
+  
+  // We keep a global list of employees for sorting/searching
+  let allEmployees = [];
+  let sortDirection = {};
+  let employeeNotesData = {};
   
   // Predefined notes (used for the select dropdown)
   const predefinedNotes = [
@@ -69,7 +90,7 @@ if (!firebase.apps.length) {
     "Custom"
   ];
   
-  // Any note in this list EXCLUDES that day’s hours
+  // Any note in this list EXCLUDES that day entirely
   const excludeNotes = [
     "No Call/No Show",
     "Called out after start of shift",
@@ -320,16 +341,20 @@ if (!firebase.apps.length) {
     const selectedDays = daysInRange.map(d => d.day);
   
     const filteredEmployees = [];
+    // We'll track how many employees 'work' for each department/position
     const departmentCounts = {};
     const positionCounts = {};
+    // For tooltip listing
     const employeesByDepartment = { Total: [] };
     const employeesByPosition = { Total: [] };
+    // Hours by department
     const departmentHours = {};
+    // Facilities
     const facilitiesSet = new Set();
   
     const selectedFacility = facilityFilterSelect.value || "All";
   
-    // Iterate all employees from DB
+    // Iterate over all employees from DB
     for (const key in employeesData) {
       const employee = employeesData[key];
       const employeeId = employee.ID || "";
@@ -367,14 +392,36 @@ if (!firebase.apps.length) {
       // Overall status
       const overallStatus = getOverallStatusForEmployee(employeeId, daysInRange);
   
-      // Check if employee works any day in range
-      const worksOnDays = selectedDays.some(day => {
-        const sched = schedule[day] || "Off";
-        return sched.toLowerCase() !== "off";
+      // We also determine if there's ANY day the employee truly "works"
+      // (not off, no exclude notes, not request off, not absent)
+      let worksAnyDay = false;
+  
+      // For department/position counting, we only count an employee once
+      // if they have at least one "valid" working day in the range.
+      daysInRange.forEach((dayObj) => {
+        const day = dayObj.day;
+        const dateStr = dayObj.dateStr;
+        const scheduleText = schedule[day] || "Off";
+        const status = getStatusForEmployeeOnDate(employeeId, dateStr);
+  
+        const dayNotes = (employeeNotesData[employeeId] && employeeNotesData[employeeId][dateStr])
+          ? employeeNotesData[employeeId][dateStr]
+          : [];
+        const dayHasExcludedNote = dayNotes.some(n => excludeNotes.includes(n));
+  
+        // If not "Off" and not "Request Off" and not "Absent" and no excluded note => they worked
+        if (
+          scheduleText.toLowerCase() !== "off" &&
+          status !== "Request Off" &&
+          status !== "Absent" &&
+          !dayHasExcludedNote
+        ) {
+          worksAnyDay = true;
+        }
       });
   
-      // If we show Off employees, or if they actually work, add them
-      if (showOffCheckbox.checked || worksOnDays) {
+      // If user wants to see OFF employees or the employee actually works
+      if (showOffCheckbox.checked || worksAnyDay) {
         filteredEmployees.push({
           id: employeeId,
           department: employee.Department,
@@ -386,8 +433,8 @@ if (!firebase.apps.length) {
           status: overallStatus
         });
   
-        if (worksOnDays) {
-          // Count departments
+        // If they worked at least one day, increment department/position counts
+        if (worksAnyDay) {
           const department = employee.Department || "Unknown";
           departmentCounts[department] = (departmentCounts[department] || 0) + 1;
           if (!employeesByDepartment[department]) {
@@ -396,7 +443,6 @@ if (!firebase.apps.length) {
           employeesByDepartment[department].push(employee["First Name"]);
           employeesByDepartment["Total"].push(employee["First Name"]);
   
-          // Count positions
           const position = employee.Position || "Unknown";
           positionCounts[position] = (positionCounts[position] || 0) + 1;
           if (!employeesByPosition[position]) {
@@ -407,9 +453,10 @@ if (!firebase.apps.length) {
         }
       }
   
-      // Calculate hours (excludes certain statuses and notes)
+      // Calculate hours (similarly skipping days with exclude notes)
       const department = employee.Department || "Unknown";
       let totalHours = 0;
+  
       daysInRange.forEach((dayObj) => {
         const day = dayObj.day;
         const dateStr = dayObj.dateStr;
@@ -437,6 +484,7 @@ if (!firebase.apps.length) {
           }
         }
       });
+  
       if (totalHours > 0) {
         departmentHours[department] = (departmentHours[department] || 0) + totalHours;
       }
@@ -479,10 +527,12 @@ if (!firebase.apps.length) {
       return;
     }
     departmentSummary.style.display = "flex";
+  
     let totalCount = 0;
     for (const count of Object.values(departmentCounts)) {
       totalCount += count;
     }
+  
     const totalItem = document.createElement("div");
     totalItem.className = "summary-item total";
     totalItem.innerHTML = `<strong>Total</strong>: ${totalCount}`;
@@ -510,10 +560,12 @@ if (!firebase.apps.length) {
       return;
     }
     positionSummary.style.display = "flex";
+  
     let totalCount = 0;
     for (const count of Object.values(positionCounts)) {
       totalCount += count;
     }
+  
     const totalItem = document.createElement("div");
     totalItem.className = "summary-item total";
     totalItem.innerHTML = `<strong>Total</strong>: ${totalCount}`;
@@ -540,6 +592,7 @@ if (!firebase.apps.length) {
     for (const hours of Object.values(departmentHours)) {
       grandTotal += hours;
     }
+  
     const totalItem = document.createElement("div");
     totalItem.className = "summary-item total";
     totalItem.innerHTML = `<strong>Total Hours</strong>: ${grandTotal}`;
@@ -558,7 +611,6 @@ if (!firebase.apps.length) {
     employeeTable.innerHTML = "";
   
     const showNotes = showNotesCheckbox.checked;
-  
     // Build table headers
     const headers = [
       { text: "Department", key: "department" },
@@ -687,15 +739,8 @@ if (!firebase.apps.length) {
         row.appendChild(notesCell);
       }
   
-      row.addEventListener("contextmenu", (event) => {
-        event.preventDefault();
-        showContextMenu(event, employee);
-      });
-  
       employeeTable.appendChild(row);
     });
-  
-    document.addEventListener("click", hideContextMenu);
   }
   
   // Sorting
@@ -774,66 +819,6 @@ if (!firebase.apps.length) {
         field && field.toLowerCase().includes(searchTerm)
       );
     });
-  }
-  
-  // Context menu
-  function showContextMenu(event, employee) {
-    hideContextMenu();
-    contextMenu = document.createElement("div");
-    contextMenu.className = "custom-context-menu";
-    contextMenu.style.top = `${event.pageY}px`;
-    contextMenu.style.left = `${event.pageX}px`;
-  
-    const menuItems = [
-      { text: "Request Off", action: "Request Off", node: "Time_off" },
-      { text: "Late", action: "Late", node: "Late" },
-      { text: "Left Early", action: "Leave Early", node: "Early" },
-      { text: "Volunteer", action: "Volunteer", node: "Volunteer" },
-      { text: "Absent", action: "Absent", node: "Absent" },
-    ];
-  
-    menuItems.forEach((item) => {
-      const menuItem = document.createElement("div");
-      menuItem.className = "context-menu-item";
-      menuItem.textContent = item.text;
-      menuItem.addEventListener("click", () => {
-        handleMenuAction(item.node, employee, item.action);
-      });
-      contextMenu.appendChild(menuItem);
-    });
-  
-    document.body.appendChild(contextMenu);
-  }
-  
-  function hideContextMenu() {
-    if (contextMenu) {
-      document.body.removeChild(contextMenu);
-      contextMenu = null;
-    }
-  }
-  
-  function handleMenuAction(nodeName, employee, action) {
-    const selectedDate = startDateInput.value;
-    const employeeId = employee.id || employee.ID || "";
-  
-    const data = {
-      ID: employeeId,
-      "First Name": employee.firstName,
-      "Last Name": employee.lastName,
-      date: selectedDate,
-      action: action,
-    };
-  
-    db.ref(nodeName).push(data)
-      .then(() => {
-        alert(`${action} recorded for ${employee.firstName} ${employee.lastName} on ${selectedDate}.`);
-        // The real-time listener automatically updates the table
-      })
-      .catch((error) => {
-        console.error(`Error updating ${nodeName}:`, error);
-      });
-  
-    hideContextMenu();
   }
   
   // Save or update notes for an employee
