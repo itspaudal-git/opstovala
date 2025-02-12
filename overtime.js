@@ -25,6 +25,8 @@ let timeOffData = {};
 // Format date for Firebase keys (MM-DD-YYYY)
 function formatDateForFirebase(date) {
   const [year, month, day] = date.split("-");
+  // Debug log for date key
+  console.log("Parsing date:", { original: date, year, month, day });
   return `${month}-${day}-${year}`;
 }
 
@@ -40,6 +42,7 @@ async function fetchLatestDate() {
 
 // Fetch data from Firebase Overtime and Employee nodes
 async function fetchOvertimeData(dateKey, facilityFilter) {
+  console.log("Fetching Overtime data for key:", dateKey, " and facility:", facilityFilter);
   const overtimeRef = db.ref(`Overtime/${dateKey}`);
   const employeeRef = db.ref("Employee");
 
@@ -51,8 +54,6 @@ async function fetchOvertimeData(dateKey, facilityFilter) {
   const overtimeData = overtimeSnapshot.val() || {};
   const employeeData = employeeSnapshot.val() || {};
 
-  // We changed daily fields in Firebase from (Monday, Tuesday, etc.)
-  // to (Monday_St, Monday_End, etc.) so we capture those properly now:
   const rows = Object.entries(overtimeData).map(([positionId, overtimeEntry]) => {
     const employeeEntry = Object.values(employeeData).find(
       (employee) => employee.ID === positionId && (!facilityFilter || employee.Facility === facilityFilter)
@@ -66,7 +67,6 @@ async function fetchOvertimeData(dateKey, facilityFilter) {
         lastName: employeeEntry["Last Name"] || "N/A",
         currentHours: overtimeEntry.Current_Hours || 0,
 
-        // Changed to new structure: Sunday_St, Sunday_End, Monday_St, Monday_End, etc.
         sunday_st: employeeEntry.Sunday_St || "",
         sunday_end: employeeEntry.Sunday_End || "",
         monday_st: employeeEntry.Monday_St || "",
@@ -93,8 +93,6 @@ async function fetchOvertimeData(dateKey, facilityFilter) {
 function parseTime(timeStr) {
   if (!timeStr || typeof timeStr !== "string") return null;
 
-  // We can handle both "7:00 AM" or "14:30" formats
-  // Example pattern: "7:00 AM", "3:30 PM", "14:30"
   let time = timeStr.trim().toUpperCase();
   let isPM = false;
   let isAM = false;
@@ -113,7 +111,7 @@ function parseTime(timeStr) {
 
   if (isNaN(hours) || isNaN(minutes)) return null;
 
-  // Convert 12-hour format to 24-hour if needed
+  // Convert 12-hour format to 24-hour
   if (isPM && hours < 12) {
     hours += 12;
   }
@@ -124,28 +122,20 @@ function parseTime(timeStr) {
   return hours * 60 + minutes;
 }
 
-// Helper to parse shift duration based on start/end times
+// Helper to parse shift duration
 function parseDayValue(startStr, endStr) {
-  // If either is missing, we consider 0 hours
   if (!startStr || !endStr) return 0;
-
   const start = parseTime(startStr);
   const end = parseTime(endStr);
+  if (start == null || end == null) return 0;
 
-  if (start == null || end == null) {
-    return 0;
-  }
-
-  // Calculate difference in minutes
   let diff = end - start;
   // If negative, assume it crosses midnight (optional logic)
   if (diff < 0) {
     diff += 24 * 60;
   }
-
-  // Convert minutes to hours
   const hours = diff / 60;
-  return hours < 0 ? 0 : hours; 
+  return hours < 0 ? 0 : hours;
 }
 
 // Render the table dynamically based on the selected day and facility
@@ -164,12 +154,10 @@ function renderTable(data, dayOfWeek) {
     { name: "Current Hours", sortKey: "currentHours", type: "number" }
   ];
 
-  // Add columns for the days from the selected day onward
   visibleDays.forEach(day => {
     columns.push({ name: day, sortKey: null, type: "number" });
   });
 
-  // Then Total and Hours Available
   columns.push({ name: "Total", sortKey: "total", type: "number" });
   columns.push({ name: "Hours Available", sortKey: "hoursAvailable", type: "number" });
 
@@ -200,12 +188,9 @@ function renderTable(data, dayOfWeek) {
     tr.appendChild(createCell(row.firstName));
     tr.appendChild(createCell(row.lastName));
 
-    // Current Hours as Off if 0
     const currentHoursDisplay = (row.currentHours === 0) ? "Off" : row.currentHours.toFixed(2);
-    const currentHoursCell = createCell(currentHoursDisplay);
-    tr.appendChild(currentHoursCell);
+    tr.appendChild(createCell(currentHoursDisplay));
 
-    // This object helps us map the day (e.g. "Monday") to (row.monday_st, row.monday_end)
     const dayValuesMap = {
       Sunday:   { start: row.sunday_st,   end: row.sunday_end },
       Monday:   { start: row.monday_st,   end: row.monday_end },
@@ -217,8 +202,6 @@ function renderTable(data, dayOfWeek) {
     };
 
     let totalHours = row.currentHours;
-
-    // Calculate the actual date for each visible day and check timeOff
     const selectedDate = new Date(dateInput.value + "T00:00:00");
 
     visibleDays.forEach((day, index) => {
@@ -228,40 +211,22 @@ function renderTable(data, dayOfWeek) {
       const dd = String(dayDate.getDate()).padStart(2, '0');
       const dateStr = `${yyyy}-${mm}-${dd}`;
 
-      // Get hours from start/end
       let hours = parseDayValue(dayValuesMap[day].start, dayValuesMap[day].end);
 
-      // Check if this employee has time off on dateStr
-      const isOff = checkTimeOff(row.positionId, dateStr);
-      let dayDisplay;
-      if (isOff) {
-        dayDisplay = "Off";
-        hours = 0; 
+      if (checkTimeOff(row.positionId, dateStr)) {
+        hours = 0;
+        tr.appendChild(createCell("Off"));
       } else {
-        if (hours === 0) {
-          dayDisplay = "Off";
-        } else {
-          dayDisplay = hours.toFixed(2);
-        }
+        tr.appendChild(createCell(hours === 0 ? "Off" : hours.toFixed(2)));
       }
-
-      const dayCell = createCell(dayDisplay);
-      tr.appendChild(dayCell);
-
       totalHours += hours || 0;
     });
 
-    // Compute total and hoursAvailable
-    const total = totalHours;
-    // HoursAvailable is only based on currentHours as per existing logic
-    const hoursAvailable = Math.max(40 - row.currentHours, 0);
-
-    // Total cell with color coding
-    const totalCell = createCell(total.toFixed(2));
-    applyTotalColor(totalCell, total);
+    const totalCell = createCell(totalHours.toFixed(2));
+    applyTotalColor(totalCell, totalHours);
     tr.appendChild(totalCell);
 
-    // Hours Available cell with color coding
+    const hoursAvailable = Math.max(40 - row.currentHours, 0);
     const haCell = createCell(hoursAvailable.toFixed(2));
     applyHoursAvailableColor(haCell, hoursAvailable);
     tr.appendChild(haCell);
@@ -358,7 +323,16 @@ function computeTotalForRow(row) {
   let totalHours = row.currentHours;
   const selectedDate = new Date(dateInput.value + "T00:00:00");
 
-  // For each visible day, compute the hours
+  const dayValuesMap = {
+    Sunday:   { start: row.sunday_st,   end: row.sunday_end },
+    Monday:   { start: row.monday_st,   end: row.monday_end },
+    Tuesday:  { start: row.tuesday_st,  end: row.tuesday_end },
+    Wednesday:{ start: row.wednesday_st,end: row.wednesday_end },
+    Thursday: { start: row.thursday_st, end: row.thursday_end },
+    Friday:   { start: row.friday_st,   end: row.friday_end },
+    Saturday: { start: row.saturday_st, end: row.saturday_end },
+  };
+
   visibleDays.forEach((day, index) => {
     const dayDate = new Date(selectedDate.getTime() + index * 24 * 3600 * 1000);
     const yyyy = dayDate.getFullYear();
@@ -366,20 +340,7 @@ function computeTotalForRow(row) {
     const dd = String(dayDate.getDate()).padStart(2, '0');
     const dateStr = `${yyyy}-${mm}-${dd}`;
 
-    // Map day name to start/end fields
-    const dayValuesMap = {
-      Sunday:   { start: row.sunday_st,   end: row.sunday_end },
-      Monday:   { start: row.monday_st,   end: row.monday_end },
-      Tuesday:  { start: row.tuesday_st,  end: row.tuesday_end },
-      Wednesday:{ start: row.wednesday_st,end: row.wednesday_end },
-      Thursday: { start: row.thursday_st, end: row.thursday_end },
-      Friday:   { start: row.friday_st,   end: row.friday_end },
-      Saturday: { start: row.saturday_st, end: row.saturday_end },
-    };
-
     let hours = parseDayValue(dayValuesMap[day].start, dayValuesMap[day].end);
-
-    // If off, then hours = 0
     if (checkTimeOff(row.positionId, dateStr)) {
       hours = 0;
     }
@@ -394,9 +355,11 @@ async function initializeData() {
     console.error("No date available in Firebase");
     return;
   }
+  console.log("Latest date key from Firebase is:", latestDateKey);
 
   const [m, d, y] = latestDateKey.split("-");
   const formattedDate = `${y}-${m}-${d}`;
+  console.log("Setting date input to:", formattedDate);
   dateInput.value = formattedDate;
 
   // Load the data for the latest date
@@ -412,12 +375,14 @@ async function loadData() {
   const facilityFilter = facilityInput.value.trim();
   selectedDaySpan.textContent = `(${WEEKDAYS[dayOfWeek]})`;
 
+  console.log("Loading data for:", dateInput.value, " => ", dateKey, "Facility:", facilityFilter);
   const data = await fetchOvertimeData(dateKey, facilityFilter);
 
   globalData = data;
   currentSortColumn = null;
   currentSortDirection = 'asc';
 
+  console.log("Fetched data (globalData):", globalData);
   renderTable(data, dayOfWeek);
 }
 
@@ -458,12 +423,14 @@ facilityInput.addEventListener("change", loadData);
 function parseCSV(content) {
   const lines = content.split("\n").map((line) => line.trim());
   const headers = lines.shift().split(",").map((header) => header.trim());
-  const rows = lines.map((line) =>
-    line.split(",").reduce((acc, value, index) => {
+  console.log("CSV Headers found:", headers);
+  const rows = lines.map((line) => {
+    const values = line.split(",");
+    return values.reduce((acc, value, index) => {
       acc[headers[index]] = value.trim();
       return acc;
-    }, {})
-  );
+    }, {});
+  });
   return rows;
 }
 
@@ -471,7 +438,7 @@ function parseCSV(content) {
 async function processFile(file) {
   const selectedDateKey = formatDateForFirebase(dateInput.value);
   const selectedFacility = facilityInput.value;
-  if (!selectedDateKey || !selectedFacility) {
+  if (!selectedDateKey || (!selectedFacility && selectedFacility !== "")) {
     alert("Please select a date and facility before uploading.");
     return;
   }
@@ -487,35 +454,48 @@ async function processFile(file) {
       const workbook = XLSX.read(content, { type: "binary" });
       const sheetName = workbook.SheetNames[0];
       rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+      console.log("XLSX Rows found:", rows);
     }
+
+    // Debug: show rows read from file
+    console.log("Rows read from file:", rows);
 
     // Extract relevant data
     const positionIdMap = {};
     rows.forEach((row) => {
+      // We look for EXACT keys "Position ID" and "Total Hours"
       const positionId = row["Position ID"];
       const totalHours = parseFloat(row["Total Hours"]);
+      console.log("Row check:", { positionId, totalHours });
+
       if (positionId && !isNaN(totalHours)) {
         positionIdMap[positionId] = totalHours;
       }
     });
 
+    console.log("positionIdMap built from file:", positionIdMap);
+
     // Fetch existing data from Firebase
     const overtimeRef = db.ref(`Overtime/${selectedDateKey}`);
     const existingSnapshot = await overtimeRef.once("value");
     const existingData = existingSnapshot.val() || {};
+    console.log("Existing data at Overtime/" + selectedDateKey, existingData);
 
     // Update Firebase with new/updated data
-    Object.entries(positionIdMap).forEach(([positionId, totalHours]) => {
+    let writeCount = 0;
+    for (let [positionId, totalHours] of Object.entries(positionIdMap)) {
+      // Only set if there's new or updated hours
       if (!existingData[positionId] || existingData[positionId].Current_Hours !== totalHours) {
-        overtimeRef.child(positionId).set({
+        await overtimeRef.child(positionId).set({
           Current_Hours: totalHours,
           Location: selectedFacility,
           Position_ID: positionId,
         });
+        writeCount++;
       }
-    });
+    }
 
-    alert("File processed and data updated successfully.");
+    alert("File processed and data updated successfully. (" + writeCount + " record(s) written)");
     await loadData(); // Reload data to reflect updates
   };
 
