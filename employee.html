@@ -5,58 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Employee Schedule</title>
   <link rel="stylesheet" href="employee.css">
+  <!-- Firebase Libraries -->
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <!-- Firebase configuration & initialization (credentials) -->
   <script src="credd.js"></script>
+</head>
+<body>
   <header class="header">
     <div class="user-info" id="user-info">
         <!-- User Greeting and Photo will be injected here via menu.js -->
-        <!-- Example:
-        <p>Welcome, Pau Dal</p>
-        <img src="user-photo-url" alt="User Photo">
-        -->
     </div>
     <button id="logout-button" class="logout-btn" style="display: none;">Logout</button>
     <div id="login-container">
         <button id="login-button">Sign in with Tovala Email</button>
     </div>
-</header>
-</head>
-<body>
-    <div class="container">
-        <div class="filter-controls">
-          <!-- New button added here -->
-          <button id="copy-names-btn" class="nav-btn">Copy Names</button>
-          <button id="previous-btn" class="nav-btn">Previous</button>
-          <input type="date" id="start-date" class="date-input">
-          <input type="date" id="end-date" class="date-input">
-          <button id="next-btn" class="nav-btn">Next</button>
-          <label class="checkbox-label">
-            <input type="checkbox" id="show-off-checkbox">
-            Show Off
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" id="show-notes-checkbox">
-            Show Notes
-          </label>
-          <select id="facility-filter" class="facility-filter">
-            <option value="All">All</option>
-          </select>
-          <input type="text" id="search-bar" class="search-bar" placeholder="Search...">
-        </div>
-        <!-- Totals Summary -->
-        <div id="totals-summary" class="totals-summary"></div>
-        <!-- Department Summary -->
-        <div id="department-summary" class="department-summary"></div>
-        <!-- Position Summary -->
-        <div id="position-summary" class="position-summary"></div>
-        <table id="employee-table">
-          <thead></thead>
-          <tbody></tbody>
-        </table>
-      </div>
+  </header>
+  <div class="container">
+    <div class="filter-controls">
+      <button id="copy-names-btn" class="nav-btn">Copy Names</button>
+      <button id="previous-btn" class="nav-btn">Previous</button>
+      <input type="date" id="start-date" class="date-input">
+      <input type="date" id="end-date" class="date-input">
+      <button id="next-btn" class="nav-btn">Next</button>
+      <label class="checkbox-label">
+        <input type="checkbox" id="show-off-checkbox">
+        Show Off
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" id="show-notes-checkbox">
+        Show Notes
+      </label>
+      <select id="facility-filter" class="facility-filter">
+        <option value="All">All</option>
+        <!-- Add more facility options as needed -->
+      </select>
+      <!-- New Day Filter Dropdown -->
+      <select id="day-filter" class="day-filter">
+        <option value="">Select Day</option>
+        <option value="Monday">Monday</option>
+        <option value="Tuesday">Tuesday</option>
+        <option value="Wednesday">Wednesday</option>
+        <option value="Thursday">Thursday</option>
+        <option value="Friday">Friday</option>
+        <option value="Saturday">Saturday</option>
+        <option value="Sunday">Sunday</option>
+      </select>
+      <input type="text" id="search-bar" class="search-bar" placeholder="Search...">
+    </div>
+    <!-- Totals Summary -->
+    <div id="totals-summary" class="totals-summary"></div>
+    <!-- Department Summary -->
+    <div id="department-summary" class="department-summary"></div>
+    <!-- Position Summary -->
+    <div id="position-summary" class="position-summary"></div>
+    <table id="employee-table">
+      <thead>
+        <!-- Table headers can be defined here -->
+        <tr>
+          <th>Name</th>
+          <th>Day</th>
+          <th>Facility</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Employee rows will be added here dynamically -->
+      </tbody>
+    </table>
+  </div>
   <script src="menu.js"></script>
   <script src="employee.js"></script>
 </body>
