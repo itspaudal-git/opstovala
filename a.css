@@ -4,3 +4,10 @@
     justify-content: flex-end;
     align-items: center;
 }
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
