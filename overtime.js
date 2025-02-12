@@ -460,12 +460,21 @@ async function processFile(file) {
     // Debug: show rows read from file
     console.log("Rows read from file:", rows);
 
-    // Extract relevant data
     const positionIdMap = {};
+
+    // Strip extra quotes if present, then parse
     rows.forEach((row) => {
       // We look for EXACT keys "Position ID" and "Total Hours"
-      const positionId = row["Position ID"];
-      const totalHours = parseFloat(row["Total Hours"]);
+      const rawPosId = row["Position ID"] || "";
+      const rawTotal = row["Total Hours"] || "";
+
+      // Remove extra quotes if they exist, e.g. "\"6ZK001631\""
+      const cleanedPosId = rawPosId.replace(/"/g, "");
+      const cleanedTotal = rawTotal.replace(/"/g, "");
+
+      const positionId = cleanedPosId;
+      const totalHours = parseFloat(cleanedTotal);
+
       console.log("Row check:", { positionId, totalHours });
 
       if (positionId && !isNaN(totalHours)) {
