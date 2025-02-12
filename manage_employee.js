@@ -3,49 +3,75 @@ if (!firebase.apps.length) {
 }
 const db = firebase.database();
 
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
+    // Get references to DOM elements
     const employeeTable = document.getElementById("employee-table").querySelector("tbody");
     const facilityFilterSelect = document.getElementById("facility-filter");
     const searchBar = document.getElementById("search-bar");
     const sortBySelect = document.getElementById("sort-by");
     const sortOrderSelect = document.getElementById("sort-order");
-
+    
+    // In-memory storage of Employees and Notes from Firebase
+    let employees = {};
+    let notesData = {};
+    // Combined list after merging employees + notes
     let allNotes = [];
+
+    // For table sorting by clicking on <th>
     let sortDirection = {};
 
+    // Points map for different notes
     const notesPointsMap = {
-        "No Call/No Show":4,
-        "Called out after start of shift":4,
-        "Callout":2,
-        "Tardy less than 1 hour":0.5,
-        "Tardy more than 1 hour":1,
-        "Left early - worked less than half of their shift":2,
-        "Left early - worked more than half of their shift":1,
-        "Rollback":"*", // We'll assign the actual rollback value dynamically
-        "Bereavement":0,
-        "Verbal":"*",
-        "Dr Notes":"*",
-        "Written":"*",
-        "Final":"*",
-        "Returned late from lunch":0.5,
-        "Left and returned less than 1 hour later":0.5,
-        "Left and returned between 1 and 2 hours later":0.5,
-        "Left and returned more than 2 hours later":1,
-        "Callout (Sick Time)":0
+        "No Call/No Show": 4,
+        "Called out after start of shift": 4,
+        "Callout": 2,
+        "Tardy less than 1 hour": 0.5,
+        "Tardy more than 1 hour": 1,
+        "Left early - worked less than half of their shift": 2,
+        "Left early - worked more than half of their shift": 1,
+        "Rollback": "*", // We'll assign negative values dynamically
+        "Bereavement": 0,
+        "Verbal": "*",
+        "Dr Notes": "*",
+        "Written": "*",
+        "Final": "*",
+        "Returned late from lunch": 0.5,
+        "Left and returned less than 1 hour later": 0.5,
+        "Left and returned between 1 and 2 hours later": 0.5,
+        "Left and returned more than 2 hours later": 1,
+        "Callout (Sick Time)": 0
     };
 
-    async function fetchData() {
-        const [employeeSnap, notesSnap] = await Promise.all([
-            db.ref("Employee").once("value"),
-            db.ref("Employee_Note").once("value")
-        ]);
+    // Attach real-time listeners to Firebase Realtime Database
+    const employeesRef = db.ref("Employee");
+    const notesRef = db.ref("Employee_Note");
 
-        const employees = employeeSnap.val() || {};
-        const notesData = notesSnap.val() || {};
+    // Listen for changes in Employee data
+    employeesRef.on("value", (snapshot) => {
+        employees = snapshot.val() || {};
+        updateAllNotesAndRender();
+    });
 
+    // Listen for changes in Employee_Note data
+    notesRef.on("value", (snapshot) => {
+        notesData = snapshot.val() || {};
+        updateAllNotesAndRender();
+    });
+
+    /**
+     * Merge employees + notes into allNotes,
+     * insert rollbacks, populate facility dropdown,
+     * and then render the table.
+     */
+    function updateAllNotesAndRender() {
+        allNotes = [];
+
+        // We need at least something in employees/notesData to proceed
+        // (If either is empty, we just end up rendering an empty table or partial data).
         const employeeMap = {};
         const facilitiesSet = new Set();
 
+        // Build a quick map (ID => employee obj)
         for (const key in employees) {
             const emp = employees[key];
             const employeeId = emp.ID || "";
@@ -53,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             facilitiesSet.add(emp.Facility || "Unknown");
         }
 
-        allNotes = [];
+        // Merge notes with employee data
         for (const noteKey in notesData) {
             const noteRecord = notesData[noteKey];
             const { ID, date, notes } = noteRecord;
@@ -87,14 +113,28 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
         }
 
+        // Populate the facility filter dropdown each time
         populateFacilityFilter(Array.from(facilitiesSet));
 
+        // Insert rollback events
         insertRollbacks();
 
+        // Finally, render the table with the updated allNotes
         renderTable(allNotes);
     }
 
+    /**
+     * Populate the facility <select> with given facilities.
+     */
     function populateFacilityFilter(facilities) {
+        // Clear out existing options
+        facilityFilterSelect.innerHTML = "";
+        // Always include an "All" option
+        const allOption = document.createElement("option");
+        allOption.value = "All";
+        allOption.textContent = "All";
+        facilityFilterSelect.appendChild(allOption);
+
         facilities.sort();
         facilities.forEach((fac) => {
             const option = document.createElement("option");
@@ -104,8 +144,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
+    /**
+     * Insert rollback events for each employee group based on the 1-month rule
+     * and adjusting cumulative points by 2, as needed.
+     */
     function insertRollbacks() {
-        // Group by ID
+        // Group notes by employee ID
         const groups = {};
         allNotes.forEach(item => {
             if (!groups[item.ID]) groups[item.ID] = [];
@@ -114,43 +158,42 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         let newAllNotes = [];
 
+        // Process each employee's events
         for (const id in groups) {
             let events = groups[id];
-            // Sort by date
-            events.sort((a,b) => a.dateValue - b.dateValue);
+            // Sort them by date ascending
+            events.sort((a, b) => a.dateValue - b.dateValue);
 
             let finalEvents = [];
             let lastPositiveDate = null;
-            let currentTotalPoints = 0; // track cumulative points over time
+            let currentTotalPoints = 0;
 
-            // First pass: calculate currentTotalPoints after each event
-            // Actually, we can insert rollbacks on the fly.
             for (let i = 0; i < events.length; i++) {
                 let ev = events[i];
 
-                // Before processing this event, check if we need to insert rollbacks
+                // Insert rollbacks in the gaps between lastPositiveDate and this event's date
                 if (lastPositiveDate !== null) {
                     let rollbackDate = addOneMonth(lastPositiveDate);
                     while (rollbackDate < ev.dateValue) {
-                        // Attempt a rollback
-                        // Determine how much we can roll back:
-                        // - If currentTotalPoints <=0, no rollback (no points to remove)
-                        if (currentTotalPoints <= 0) break;
-
+                        if (currentTotalPoints <= 0) {
+                            // No points to roll back
+                            break;
+                        }
                         let rollbackAmount = -2;
                         if (currentTotalPoints < 2) {
-                            // roll back only as many points as available
+                            // Only roll back what's available if less than 2
                             rollbackAmount = -currentTotalPoints;
                         }
 
                         finalEvents.push(createRollbackEvent(ev, rollbackDate, rollbackAmount));
                         currentTotalPoints += rollbackAmount; // rollbackAmount is negative
-                        lastPositiveDate = rollbackDate; 
+                        lastPositiveDate = rollbackDate;
+                        // Move to the next month
                         rollbackDate = addOneMonth(lastPositiveDate);
                     }
                 }
 
-                // Now process the current event
+                // Add the current event
                 finalEvents.push(ev);
                 if (typeof ev.Points === "number") {
                     currentTotalPoints += ev.Points;
@@ -160,16 +203,22 @@ document.addEventListener("DOMContentLoaded", async function () {
                 }
             }
 
-            // After last event, we do not insert future rollbacks as per the requirement
+            // No future rollbacks after the last event
 
-            // Sort again (in case rollbacks were inserted)
-            finalEvents.sort((a,b) => a.dateValue - b.dateValue);
+            // Sort finalEvents (since we may have inserted rollbacks in the middle)
+            finalEvents.sort((a, b) => a.dateValue - b.dateValue);
+
+            // Combine them in the master list
             newAllNotes.push(...finalEvents);
         }
 
+        // Replace allNotes with the new list that includes rollbacks
         allNotes = newAllNotes;
     }
 
+    /**
+     * Create a rollback event object based on a reference event.
+     */
     function createRollbackEvent(referenceEvent, dateObj, amount) {
         return {
             ID: referenceEvent.ID,
@@ -187,41 +236,48 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
     }
 
+    /**
+     * Utility: adds one month to a given date.
+     */
     function addOneMonth(date) {
         const d = new Date(date.getTime());
-        const month = d.getMonth() + 1;
-        d.setMonth(month);
+        d.setMonth(d.getMonth() + 1);
         return d;
     }
 
+    /**
+     * Utility: format date as yyyy-mm-dd string.
+     */
     function formatDate(dateObj) {
         const y = dateObj.getFullYear();
-        const m = String(dateObj.getMonth()+1).padStart(2,'0');
-        const d = String(dateObj.getDate()).padStart(2,'0');
+        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const d = String(dateObj.getDate()).padStart(2, '0');
         return `${y}-${m}-${d}`;
     }
 
+    /**
+     * Render the table rows (with rollbacks, totals, etc.).
+     */
     function renderTable(data) {
+        // Clear existing rows
         employeeTable.innerHTML = "";
+
+        // First, apply the facility & search filters
         const filtered = applyFilters(data);
 
-        // Group by ID
+        // Group the filtered data by employee ID
         const groups = {};
         filtered.forEach(item => {
             if (!groups[item.ID]) groups[item.ID] = [];
             groups[item.ID].push(item);
         });
 
-        // For each group, sort by date
+        // Sort each group by date ascending
         for (const id in groups) {
-            groups[id].sort((a,b) => a.dateValue - b.dateValue);
+            groups[id].sort((a, b) => a.dateValue - b.dateValue);
         }
 
-        // Determine sort by groups
-        const sortBy = sortBySelect.value; 
-        const sortOrder = sortOrderSelect.value; 
-
-        // Build group array for sorting
+        // Now we need to build a group array for sorting by (Name, Points, or Date)
         let groupArray = Object.keys(groups).map(id => {
             const items = groups[id];
             let sumPoints = 0;
@@ -233,24 +289,26 @@ document.addEventListener("DOMContentLoaded", async function () {
                     hasNumeric = true;
                 }
             });
-
-            // Ensure sumPoints never goes below 0 (it shouldn't now)
+            // Make sure sumPoints doesn't go below 0
             if (sumPoints < 0) sumPoints = 0;
 
-            let finalPoints = hasNumeric ? sumPoints : "N/A";
-            let earliestDate = items.length > 0 ? items[0].dateValue : null;
             return {
                 ID: id,
                 items: items,
                 firstName: items[0].firstNameRaw,
-                pointsSum: finalPoints,
-                earliestDate: earliestDate
+                pointsSum: hasNumeric ? sumPoints : "N/A",
+                earliestDate: items.length > 0 ? items[0].dateValue : null
             };
         });
 
-        // Sort groups
+        // Determine user-selected sort
+        const sortBy = sortBySelect.value;
+        const sortOrder = sortOrderSelect.value;
+
+        // Sort the entire group array
         groupArray.sort((a, b) => {
             let valA, valB;
+
             if (sortBy === "FirstName") {
                 valA = a.firstName.toLowerCase();
                 valB = b.firstName.toLowerCase();
@@ -267,7 +325,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             return 0;
         });
 
-        // Render groups
+        // Render each group's items
         groupArray.forEach(group => {
             group.items.forEach(item => {
                 const row = document.createElement("tr");
@@ -281,7 +339,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 employeeTable.appendChild(row);
             });
 
-            // After printing group's items: print total points row first, then empty line
+            // Summary row (total points)
             const sumRow = document.createElement("tr");
             sumRow.className = "summary-row";
             sumRow.innerHTML = `
@@ -290,6 +348,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             `;
             employeeTable.appendChild(sumRow);
 
+            // Empty spacer row
             const emptyRow = document.createElement("tr");
             emptyRow.className = "empty-row";
             emptyRow.innerHTML = `<td colspan="5"></td>`;
@@ -297,18 +356,21 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
+    /**
+     * Filter the data by selected facility and search term.
+     */
     function applyFilters(data) {
         const selectedFacility = facilityFilterSelect.value;
         const searchTerm = searchBar.value.trim().toLowerCase();
 
         let result = data;
 
-        // Filter by facility
+        // Filter by facility (if not "All")
         if (selectedFacility && selectedFacility !== "All") {
             result = result.filter(item => (item.Facility || "Unknown") === selectedFacility);
         }
 
-        // Search by ID, firstName, lastName
+        // Filter by search term (ID, first name, or last name)
         if (searchTerm) {
             result = result.filter(item =>
                 item.employeeId.includes(searchTerm) ||
@@ -320,7 +382,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         return result;
     }
 
-    // Thead click sorting (optional)
+    /**
+     * Click-to-sort on table headers (optional, if you want that feature).
+     */
     const thead = document.querySelector("#employee-table thead");
     thead.addEventListener("click", (event) => {
         const th = event.target.closest("th");
@@ -328,7 +392,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         const key = th.getAttribute("data-key");
         if (!key) return;
 
+        // Toggle sort direction
         sortDirection[key] = !sortDirection[key];
+        
+        // Sort only the filtered data
         const dataToSort = applyFilters(allNotes).slice();
 
         dataToSort.sort((a, b) => {
@@ -342,9 +409,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             return 0;
         });
 
+        // Re-render with newly sorted data
         renderTable(dataToSort);
     });
 
+    // Attach filter/sort event listeners
     facilityFilterSelect.addEventListener("change", () => {
         renderTable(allNotes);
     });
@@ -360,6 +429,4 @@ document.addEventListener("DOMContentLoaded", async function () {
     sortOrderSelect.addEventListener("change", () => {
         renderTable(allNotes);
     });
-
-    fetchData();
 });
