@@ -13,7 +13,7 @@ const cookingTasks = new Set([
 
 // Tasks to exclude
 const excludedTasks = new Set([
-    "Batch Mix", "Open", "Drain", "Oven", "Thaw", "VCM", "Planetary Mix","Band Sealing",
+     "Open", "Drain", "Oven", "Thaw", "VCM", "Band Sealing",
 ]);
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -325,10 +325,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     let oxy = log["oxygen_level"] || "?";
                     let time = log["QA_time"] || "?";
                     let comment = log["QA_Comments"] || "?";
+                    let initial = log["QA_Initials"] || "?";
                     if (entry.task === "Tray Portioning and Sealing") {
-                        return `Weight: ${w} g\nOxy: ${oxy}%\nTime: ${time}\nC/C: ${comment}`;
+                        return `Weight: ${w} g\nOxy: ${oxy}%\nTime: ${time}\nC/C: ${comment}nInitials: ${initial}`;
                     } else {
-                        return `Weight: ${w} g\nTime: ${time}\nC/C: ${comment}`;
+                        return `Weight: ${w} g\nTime: ${time}\nC/C: ${comment}nInitials: ${initial}`;
                     }
                 });
                 cb(arr, true);

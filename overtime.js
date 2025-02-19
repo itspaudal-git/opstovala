@@ -54,9 +54,13 @@ async function fetchOvertimeData(dateKey, facilityFilter) {
   const overtimeData = overtimeSnapshot.val() || {};
   const employeeData = employeeSnapshot.val() || {};
 
+  // -- Only include employees whose Status is "Active"
   const rows = Object.entries(overtimeData).map(([positionId, overtimeEntry]) => {
     const employeeEntry = Object.values(employeeData).find(
-      (employee) => employee.ID === positionId && (!facilityFilter || employee.Facility === facilityFilter)
+      (employee) =>
+        employee.ID === positionId &&
+        (!facilityFilter || employee.Facility === facilityFilter) &&
+        (employee.Status === "Active")
     );
 
     if (employeeEntry) {
@@ -419,13 +423,16 @@ function listenToTimeOff() {
 dateInput.addEventListener("change", loadData);
 facilityInput.addEventListener("change", loadData);
 
-// Helper function to parse CSV content
+// Updated parseCSV function to handle tab-delimited data
 function parseCSV(content) {
+  // If your file truly uses tabs between fields, split on "\t"
   const lines = content.split("\n").map((line) => line.trim());
-  const headers = lines.shift().split(",").map((header) => header.trim());
-  console.log("CSV Headers found:", headers);
+  // Grab the first line as headers
+  const headers = lines.shift().split("\t").map((header) => header.trim());
+  console.log("Headers found:", headers);
+
   const rows = lines.map((line) => {
-    const values = line.split(",");
+    const values = line.split("\t");
     return values.reduce((acc, value, index) => {
       acc[headers[index]] = value.trim();
       return acc;
@@ -448,6 +455,7 @@ async function processFile(file) {
     const content = event.target.result;
     let rows = [];
     if (file.name.endsWith(".csv")) {
+      // Actually treat it as .tsv if your data is tab-delimited:
       rows = parseCSV(content);
     } else if (file.name.endsWith(".xlsx")) {
       // Use XLSX library to parse XLSX file
@@ -462,11 +470,12 @@ async function processFile(file) {
 
     const positionIdMap = {};
 
-    // Strip extra quotes if present, then parse
+    // Safely handle raw fields as strings:
     rows.forEach((row) => {
       // We look for EXACT keys "Position ID" and "Total Hours"
-      const rawPosId = row["Position ID"] || "";
-      const rawTotal = row["Total Hours"] || "";
+      //   Adjust these if your columns differ
+      const rawPosId = String(row["Position ID"] ?? "");
+      const rawTotal = String(row["Total Hours"] ?? "");
 
       // Remove extra quotes if they exist, e.g. "\"6ZK001631\""
       const cleanedPosId = rawPosId.replace(/"/g, "");
@@ -508,6 +517,7 @@ async function processFile(file) {
     await loadData(); // Reload data to reflect updates
   };
 
+  // If your file is truly tab-delimited, it might still use .csv as extension
   if (file.name.endsWith(".csv")) {
     reader.readAsText(file);
   } else if (file.name.endsWith(".xlsx")) {

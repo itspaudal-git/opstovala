@@ -1,23 +1,4 @@
-/****************************************************
- * employee.js
- *
- * This file handles:
- *   1) Real-time fetching of Employees, Time Off, Late, Early, Volunteer, Absent, and Notes data
- *   2) Filtering and searching employees
- *   3) Summaries by Department, Position, and Total Hours
- *   4) Excluding days from the Department Summary, Position Summary,
- *      and Totals Summary if that day’s notes match any of:
- *         [
- *           "No Call/No Show",
- *           "Called out after start of shift",
- *           "Callout",
- *           "Bereavement",
- *           "Dr Notes",
- *           "Callout (Sick Time)"
- *         ]
- *      (This applies just like hours, so that day won't be counted
- *       in department/position totals if “excluded” applies.)
- ****************************************************/
+
 
 // Initialize Firebase if not already done
 if (!firebase.apps.length) {
@@ -338,7 +319,7 @@ if (!firebase.apps.length) {
     }
   
     const daysInRange = getDaysInRange(startDateStr, endDateStr);
-    const selectedDays = daysInRange.map(d => d.day);
+    const selectedDays = daysInRange.map((d) => d.day);
   
     const filteredEmployees = [];
     // We'll track how many employees 'work' for each department/position
@@ -357,6 +338,12 @@ if (!firebase.apps.length) {
     // Iterate over all employees from DB
     for (const key in employeesData) {
       const employee = employeesData[key];
+  
+      // Skip employees who are NOT "Active" (e.g. "Inactive")
+      if (employee.Status !== "Active") {
+        continue;
+      }
+  
       const employeeId = employee.ID || "";
       const empFacility = employee.Facility || "Unknown";
       facilitiesSet.add(empFacility);
@@ -392,12 +379,8 @@ if (!firebase.apps.length) {
       // Overall status
       const overallStatus = getOverallStatusForEmployee(employeeId, daysInRange);
   
-      // We also determine if there's ANY day the employee truly "works"
-      // (not off, no exclude notes, not request off, not absent)
+      // Determine if there's ANY day the employee truly "works"
       let worksAnyDay = false;
-  
-      // For department/position counting, we only count an employee once
-      // if they have at least one "valid" working day in the range.
       daysInRange.forEach((dayObj) => {
         const day = dayObj.day;
         const dateStr = dayObj.dateStr;
@@ -407,9 +390,9 @@ if (!firebase.apps.length) {
         const dayNotes = (employeeNotesData[employeeId] && employeeNotesData[employeeId][dateStr])
           ? employeeNotesData[employeeId][dateStr]
           : [];
-        const dayHasExcludedNote = dayNotes.some(n => excludeNotes.includes(n));
+        const dayHasExcludedNote = dayNotes.some((n) => excludeNotes.includes(n));
   
-        // If not "Off" and not "Request Off" and not "Absent" and no excluded note => they worked
+        // If not "Off", not request off, not absent, and no exclude note => they worked
         if (
           scheduleText.toLowerCase() !== "off" &&
           status !== "Request Off" &&
@@ -430,7 +413,7 @@ if (!firebase.apps.length) {
           firstName: employee["First Name"],
           lastName: employee["Last Name"],
           schedule: schedule,
-          status: overallStatus
+          status: overallStatus,
         });
   
         // If they worked at least one day, increment department/position counts
@@ -462,12 +445,11 @@ if (!firebase.apps.length) {
         const dateStr = dayObj.dateStr;
         const scheduleText = schedule[day] || "Off";
         const status = getStatusForEmployeeOnDate(employeeId, dateStr);
-  
-        // Check if any note for that day is in `excludeNotes`
+        
         const dayNotes = (employeeNotesData[employeeId] && employeeNotesData[employeeId][dateStr])
           ? employeeNotesData[employeeId][dateStr]
           : [];
-        const dayHasExcludedNote = dayNotes.some(n => excludeNotes.includes(n));
+        const dayHasExcludedNote = dayNotes.some((n) => excludeNotes.includes(n));
   
         // Only add hours if not off, not request off, not absent, no excluded note
         if (
@@ -505,6 +487,7 @@ if (!firebase.apps.length) {
       populateFacilityFilter(facArr);
     }
   }
+  
   
   // Populate facility filter with unique facility values
   function populateFacilityFilter(facilities) {

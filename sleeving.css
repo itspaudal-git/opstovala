@@ -1,0 +1,48 @@
+/* sleeving.css */
+
+/* Basic layout for filters */
+.filter-container {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  .filter-container label {
+    font-weight: bold;
+    margin-right: 0.25rem;
+  }
+  
+  .filter-container input {
+    padding: 0.25rem 0.5rem;
+    margin-right: 1rem;
+  }
+  
+  #fetchDataBtn {
+    padding: 0.5rem 1rem;
+    background: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Table styles */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  .data-table th,
+  .data-table td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  .data-table thead {
+    background-color: #f2f2f2;
+  }
+  

@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 submenus: [
                     { name: "Master Task List", link: "aaa.html" },
                     { name: "Equipment View", link: "display_planning.html" },
+                    { name: "Jen", link: "master_task_view.html" },
                     { name: "Monitor", link: "air.html" },
                     { name: "Dashboard", link: "daily_productionv2.html" },
                     { name: "Scan Production", link: "production_report.html" },
@@ -108,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: "Quality", 
                 submenus: [
                     { name: "QA Dashboard", link: "quality.html" },
+                    { name: "Sleeving", link: "sleeving.html" },
                     { name: "Cooking/Cooling", link: "cooking_data_view.html" }
                 ]
             },
@@ -161,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: "Quality", 
                 submenus: [
                     { name: "QA Dashboard", link: "quality.html" },
+                    { name: "Sleeving", link: "sleeving.html" },
                     { name: "Cooking/Cooling", link: "cooking_data.html" },
                     { name: "Line Haul", link: "linehaul.html" }
                 ]
