@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 for (let key in termData) {
                     const entry = termData[key];
     
-                    // Only include entry if userFacility is 'All' or matches the entry’s Facility
+                    // Only include entry if userFacility is 'All' or matches the entry's Facility
                     if (userFacility === 'All' || entry.Facility === userFacility) {
                         const variance = calculateVariance(entry["Man Hours"], entry["Actual Manhours"]);
     
@@ -674,6 +674,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchStatus = searchStatusElement ? searchStatusElement.value.toLowerCase() : '';
         const term = termElement ? parseInt(termElement.value, 10) : '';
     
+        const searchTaskArray = searchTask.split(',').map(task => task.trim().toLowerCase()).filter(task => task !== '');
+
         const filtered = filteredData.filter(entry => {
             const termValue = parseInt(entry.term, 10);
             const product = entry.Product ? entry.Product.toLowerCase() : "";
@@ -687,7 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
             const productMatch = product.includes(searchProduct);
             const facilityMatch = facility.includes(searchFacility);
-            const taskMatch = task.includes(searchTask);
+            const taskMatch = searchTaskArray.length === 0 || searchTaskArray.some(taskTerm => task.includes(taskTerm));
             const dayMatch = day.includes(searchDay);
             const statusMatch = status.includes(searchStatus);  
             const termMatch = termValue === term;
@@ -712,14 +714,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         input.addEventListener('input', function() {
             const inputValue = this.value.toLowerCase();
+            const lastCommaIndex = inputValue.lastIndexOf(',');
+            let currentInput = inputValue;
+
+            if (lastCommaIndex !== -1) {
+                currentInput = inputValue.substring(lastCommaIndex + 1).trim();
+            }
+
             suggestionBox.innerHTML = '';
-            if (inputValue === '') {
+            if (currentInput === '') {
                 suggestionBox.style.display = 'none';
                 return;
             }
 
             const uniqueData = [...new Set(data)];
-            const suggestions = uniqueData.filter(item => item.toLowerCase().includes(inputValue));
+            const suggestions = uniqueData.filter(item => item.toLowerCase().includes(currentInput));
 
             if (suggestions.length === 0) {
                 suggestionBox.style.display = 'none';
@@ -733,7 +742,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 suggestionBox.appendChild(suggestionItem);
 
                 suggestionItem.addEventListener('click', function() {
-                    input.value = suggestion;
+                    const inputValueArray = input.value.split(',');
+                    inputValueArray[inputValueArray.length - 1] = suggestion;
+                    input.value = inputValueArray.join(', ');
                     suggestionBox.style.display = 'none';
                 });
             });
@@ -748,7 +759,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 suggestionBox.appendChild(suggestionItem);
 
                 suggestionItem.addEventListener('click', function() {
-                    input.value = suggestion;
+                    const inputValueArray = input.value.split(',');
+                    inputValueArray[inputValueArray.length - 1] = suggestion;
+                    input.value = inputValueArray.join(', ');
                     suggestionBox.style.display = 'none';
                 });
             });

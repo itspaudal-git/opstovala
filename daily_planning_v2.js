@@ -359,8 +359,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     valueA = parseFloat(valueA) || 0;
                     valueB = parseFloat(valueB) || 0;
                 } else {
-                    valueA = valueA.toString().toLowerCase();
-                    valueB = valueB.toString().toLowerCase();
+                    valueA = valueA?.toString().toLowerCase() ?? '';
+                    valueB = valueB?.toString().toLowerCase() ?? '';
                 }
 
                 if (valueA < valueB) return currentSortDirection === 'asc' ? -1 : 1;
@@ -418,24 +418,23 @@ document.addEventListener('DOMContentLoaded', function() {
                         cell.setAttribute('contenteditable', 'true');
                         // Event listener for when a cell loses focus (blur event)
                         cell.addEventListener('blur', function () {
-                            let newValue = this.textContent.trim(); // Use 'this' instead of 'cell' to refer to the current cell element
+                            let newValue = this.textContent.trim(); 
                             const fieldName = cellData.field;
 
                             // Ensure numeric validation for the Break_Time field, but allow it to be empty
                             if (fieldName === 'Break_Time') {
                                 if (newValue !== '' && isNaN(newValue)) {
                                     showCustomAlert('Break Time must be a numeric value.');
-                                    this.textContent = item[fieldName] || ''; // Revert to the old value if validation fails
+                                    this.textContent = item[fieldName] || ''; 
                                     return;
                                 }
-                                // Allow the field to be empty by proceeding without alert
                                 this.textContent = newValue;
                             }
 
                             // Validate and format time fields like Start_Time and End_Time, but allow them to be empty
                             if (fieldName === 'Start_Time' || fieldName === 'End_Time') {
                                 if (newValue === '') {
-                                    // If the field is empty, allow it and skip formatting
+                                    // If the field is empty, allow it
                                     this.textContent = newValue;
                                 } else {
                                     const parsedTime = parseTime(newValue); // Parse the time input
@@ -462,15 +461,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             // If the field is 'Start_Time', calculate the corresponding 'End_Time'
                             if (fieldName === 'Start_Time') {
                                 calculateAndSetEndTime(this.closest('tr'), item);
-
-                                // After calculating End_Time, propagate it to subsequent rows
+                                // After calculating End_Time, propagate times
                                 const rowIndex = filteredData.findIndex(entry => entry.uniqueId === item.uniqueId);
                                 propagateTimesFromRow(rowIndex);
                             }
 
                             // If the field is 'Task', update the Equipment dropdown
                             if (fieldName === 'Task') {
-                                // Update the Equipment dropdown in this row
                                 const equipmentCell = this.parentElement.querySelector('.equipment-cell');
                                 if (equipmentCell) {
                                     // Replace the Equipment cell with a new dropdown based on the new Task
@@ -478,6 +475,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                     equipmentCell.innerHTML = '';
                                     equipmentCell.appendChild(newEquipmentDropdown);
                                 }
+                            }
+
+                            // ---------------- NEW: Propagate Lead/Teams if changed ----------------
+                            if (fieldName === 'Lead' || fieldName === 'Teams') {
+                                const rowIndex = filteredData.findIndex(entry => entry.uniqueId === item.uniqueId);
+                                propagateLeadTeamsFromRow(rowIndex, fieldName);
                             }
                         });
                     }
@@ -706,16 +709,19 @@ document.addEventListener('DOMContentLoaded', function() {
         return selectElement;
     }
 
-    // Function to propagate Start and End times based on Equipment, Facility, and Day
+    /**
+     * Propagates Start_Time and End_Time to subsequent rows with the same Equipment, Facility, and Day.
+     * (Existing function)
+     */
     function propagateTimesFromRow(startRowIndex) {
         // Retrieve relevant input values
         const selectedFacility = facilityInput.value.trim();
         const selectedDay = dayInput.value.trim();
 
-        // If Facility or Day is not selected, exit the function
+        // If Facility or Day is not selected, exit
         if (!selectedFacility || !selectedDay) return;
 
-        // If facility is 'All', we need to handle multiple facilities
+        // Handle if facility is 'All'
         let facilitiesToConsider = [selectedFacility];
         if (selectedFacility.toLowerCase() === 'all') {
             facilitiesToConsider = ['Tubeway', 'Westvala', 'Pershing'];
@@ -730,7 +736,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = filteredData[i];
 
             // Check if the row matches the criteria
-            if (facilitiesToConsider.includes(row.Facility) && row.Day === selectedDay && row.Equipment === startRow.Equipment) {
+            if (
+                row.Equipment === startRow.Equipment &&
+                row.Day === selectedDay &&
+                facilitiesToConsider.includes(row.Facility?.trim())
+            ) {
                 if (currentEndTime) {
                     // Calculate the new Start time as the previous row's End time
                     row.Start_Time = formatTime(currentEndTime);
@@ -738,8 +748,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Calculate the new End time based on Start Time and Project Hours
                     const projectHours = parseFloat(row['Project Hours']) || 0;
                     const breakTime = parseInt(row.Break_Time, 10) || 0;
-
-                    // Calculate total minutes to add
                     const totalMinutesToAdd = Math.round(projectHours * 60) + breakTime;
 
                     // Calculate new End time
@@ -750,23 +758,93 @@ document.addEventListener('DOMContentLoaded', function() {
                     updateRowInTableAndFirebase(i, row);
                 }
             } else {
-                // Break the loop if the Equipment changes or if Day/Facility are different
+                // Break if the Equipment/Facility/Day no longer match
                 break;
             }
         }
 
-        // Re-display data to reflect the changes
+        // Re-display data to reflect changes
         displayData(filteredData);
     }
 
-    // Function to update a specific row in the table and Firebase
+    /**
+     * NEW FUNCTION:
+     * Propagates Lead or Teams to subsequent rows with the same Equipment, Facility, and Day.
+     */
+    function propagateLeadTeamsFromRow(startRowIndex, changedField) {
+        // Retrieve relevant input values
+        const selectedFacility = facilityInput.value.trim();
+        const selectedDay = dayInput.value.trim();
+
+        // If Facility or Day is not selected, exit
+        if (!selectedFacility || !selectedDay) return;
+
+        // Handle if facility is 'All'
+        let facilitiesToConsider = [selectedFacility];
+        if (selectedFacility.toLowerCase() === 'all') {
+            facilitiesToConsider = ['Tubeway', 'Westvala', 'Pershing'];
+        }
+
+        // Get the row data for the starting row
+        const startRow = filteredData[startRowIndex];
+
+        // The new value for Lead or Teams that we want to propagate
+        const newValue = startRow[changedField];
+
+        // Iterate through all subsequent rows with the same Equipment, Facility, and Day
+        for (let i = startRowIndex + 1; i < filteredData.length; i++) {
+            const row = filteredData[i];
+            if (
+                row.Equipment === startRow.Equipment &&
+                row.Day === selectedDay &&
+                facilitiesToConsider.includes(row.Facility?.trim())
+            ) {
+                // Update the row's field
+                row[changedField] = newValue;
+                // Update row in table and Firebase
+                updateRowLeadTeamsInTableAndFirebase(i, row, changedField);
+            } else {
+                // Stop if the equipment/facility/day no longer match
+                break;
+            }
+        }
+
+        // Re-display data
+        displayData(filteredData);
+    }
+
+    // Helper function: updates a single row's Lead/Teams in the table & Firebase
+    function updateRowLeadTeamsInTableAndFirebase(rowIndex, updatedRow, changedField) {
+        const row = document.querySelector(`[data-unique-id="${updatedRow.uniqueId}"]`);
+
+        // We know the columns for Lead is the 7th (index=6) and Teams is the 13th (index=12) in the display.
+        let cellIndex = (changedField === 'Lead') ? 6 : 12;
+
+        if (row) {
+            row.children[cellIndex].textContent = updatedRow[changedField];
+        }
+
+        // Update Firebase
+        const { term, key } = updatedRow;
+        const updates = {
+            [`Master_Task/${term}/${key}/${changedField}`]: updatedRow[changedField]
+        };
+
+        database.ref().update(updates)
+            .then(() => {
+                console.log(`Updated ${changedField} in Firebase for row index ${rowIndex}`);
+            })
+            .catch(err => console.error(`Error updating ${changedField} in Firebase:`, err));
+    }
+
+    // Function to update a specific row in the table and Firebase (used for times)
     function updateRowInTableAndFirebase(rowIndex, updatedRow) {
         const row = document.querySelector(`[data-unique-id="${updatedRow.uniqueId}"]`);
 
         // Update the Start and End time cells in the table
         if (row) {
-            row.children[9].textContent = updatedRow.Start_Time; // Assuming Start_Time is the 10th cell
-            row.children[11].textContent = updatedRow.End_Time; // Assuming End_Time is the 12th cell
+            row.children[9].textContent = updatedRow.Start_Time; // Start_Time cell
+            row.children[11].textContent = updatedRow.End_Time;   // End_Time cell
         }
 
         // Update Firebase
@@ -823,7 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const endTimeStr = formatTime(endTime);
 
         // Update End_Time in the table and data
-        const endTimeCell = row.children[11]; // Assuming End_Time is the 12th cell
+        const endTimeCell = row.children[11]; // End_Time cell
         endTimeCell.textContent = endTimeStr;
         item.End_Time = endTimeStr;
 
@@ -970,14 +1048,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Set a new timeout to debounce the filter application
         filterTimeout = setTimeout(() => {
-            applyFilters(); // Apply filters after a 300ms delay (or any suitable delay)
+            applyFilters(); // Apply filters after a 300ms delay
         }, 300);
     });
 
-    // Create a Copy button and add it to your toolbar or desired location
-    // Already added in HTML as <button id="copyButton">Copy Selected Rows with Styles</button>
-
-    // Function to copy selected table rows along with headers, styles, and format
+    // Copy button logic
     copyButton.addEventListener('click', () => {
         const selectedDay = dayInput.value.trim();
         if (!selectedDay) {
@@ -992,32 +1067,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Create a table element to hold the selected rows and headers
         const tempTable = document.createElement('table');
-        tempTable.style.borderCollapse = 'collapse'; // Maintain original table style
+        tempTable.style.borderCollapse = 'collapse'; 
         tempTable.style.width = '100%';
 
         // Get all the table headers and append to a new header row
         const tableHeaders = document.querySelectorAll('#dataTable th');
         const headerRow = document.createElement('tr');
-        headerRow.style.backgroundColor = 'Aqua'; // Set header background color
-        headerRow.style.color = 'black'; // Set header text color
-        headerRow.style.fontWeight = 'bold'; // Bold header text
+        headerRow.style.backgroundColor = 'Aqua';
+        headerRow.style.color = 'black';
+        headerRow.style.fontWeight = 'bold';
 
         tableHeaders.forEach(header => {
             const headerCell = document.createElement('th');
             headerCell.textContent = header.textContent;
-            headerCell.style.border = '1px solid #000'; // Add border for clarity
-            headerCell.style.padding = '5px'; // Add padding for aesthetics
+            headerCell.style.border = '1px solid #000';
+            headerCell.style.padding = '5px';
             headerCell.style.textAlign = 'center';
             headerRow.appendChild(headerCell);
         });
-        tempTable.appendChild(headerRow); // Append the header row to the temp table
+        tempTable.appendChild(headerRow); 
 
-        // Filter rows based on the selected day using Firebase data (filteredData)
-        let index = 0; // Track row index for alternating background colors
+        // Filter rows based on the selected day
+        let index = 0; 
         filteredData.forEach(item => {
             if (item.Day && item.Day.trim().toLowerCase() === selectedDay.toLowerCase()) {
                 const row = document.createElement('tr');
-                row.dataset.uniqueId = item.uniqueId; // Preserve unique identifier
+                row.dataset.uniqueId = item.uniqueId; 
 
                 // Create cells for each item attribute based on the same structure as displayData
                 const cells = [
@@ -1026,7 +1101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     { content: item.Product || '', editable: false },
                     { content: item.Count || '', editable: false },
                     { content: item.Priority || '', editable: true, field: 'Priority' },
-                    { content: item.Day || '', editable: true, field: 'Day' }, // Show day value directly in text
+                    { content: item.Day || '', editable: true, field: 'Day' }, 
                     { content: item.Lead || '', editable: true, field: 'Lead' },
                     { content: item.Equipment || '', editable: true, field: 'Equipment' },
                     { content: formatNumber(item['Project Hours']), editable: true, field: 'Project Hours' },
@@ -1041,48 +1116,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     const cell = document.createElement('td');
                     if (cellData.title) cell.setAttribute('title', cellData.title);
 
-                    // Set the content of the cell based on whether it's a DOM element or text
+                    // Set the content of the cell
                     if (typeof cellData.content === 'object') {
                         cell.appendChild(cellData.content);
                     } else {
                         cell.textContent = cellData.content;
                     }
 
-                    // Apply styles and attributes for editable cells
                     if (cellData.editable && typeof cellData.content !== 'object') {
                         cell.setAttribute('contenteditable', 'true');
-                        cell.style.backgroundColor = '#f8f9fa'; // Light background color for editable cells
+                        cell.style.backgroundColor = '#f8f9fa';
                         cell.style.cursor = 'pointer';
                     }
 
-                    // Style and append the cell to the row
-                    cell.style.border = '1px solid #000'; // Maintain border style
-                    cell.style.padding = '5px'; // Maintain padding
+                    cell.style.border = '1px solid #000'; 
+                    cell.style.padding = '5px'; 
                     row.appendChild(cell);
                 });
 
-                // Alternate row background colors: light gray and white
+                // Alternate row background colors
                 row.style.backgroundColor = index % 2 === 0 ? 'lightgray' : 'white';
                 index++;
 
-                // Append the filtered row to the temporary table
                 tempTable.appendChild(row);
             }
         });
 
         // Check if any rows were copied
-        if (tempTable.rows.length === 1) { // Only the header row exists
+        if (tempTable.rows.length === 1) { 
             alert('No rows match the selected day.');
             return;
         }
 
-        // Append the temporary table to the temporary container
         tempContainer.appendChild(tempTable);
-
-        // Append the temporary container to the body
         document.body.appendChild(tempContainer);
 
-        // Copy the temporary container's HTML content to the clipboard as HTML format
+        // Copy the temporary container's HTML content to the clipboard as HTML
         const htmlToCopy = tempContainer.innerHTML;
         navigator.clipboard.write([
             new ClipboardItem({ 'text/html': new Blob([htmlToCopy], { type: 'text/html' }) })
@@ -1108,7 +1177,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (document.getElementById('planningView')) {
                 document.getElementById('planningView').style.display = 'block';
             }
-            if (document.getElementById('user-info')) { // Ensure 'user-info' exists
+            if (document.getElementById('user-info')) {
                 populateUserInfo();
             }
 
@@ -1124,12 +1193,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (document.getElementById('login-container')) {
                 document.getElementById('login-container').style.display = 'block';
             }
-            if (document.getElementById('user-info')) { // Ensure 'user-info' exists
+            if (document.getElementById('user-info')) {
                 const userInfoDiv = document.getElementById('user-info');
                 userInfoDiv.innerHTML = '';
                 userInfoDiv.style.display = 'none';
             }
-            if (document.getElementById('logout-button')) { // Ensure 'logout-button' exists
+            if (document.getElementById('logout-button')) {
                 document.getElementById('logout-button').style.display = 'none';
             }
             console.log('No user is signed in.');
@@ -1211,10 +1280,5 @@ document.addEventListener('DOMContentLoaded', function() {
             showCustomAlert('Failed to fetch user role.');
         }
     }
-
-    /**
-     * Display the user's name and photo in the header area.
-     * (Consolidated with populateUserInfo to avoid duplication)
-     */
-    // Removed duplicate displayUserInfo as it's already handled in populateUserInfo()
+    
 });

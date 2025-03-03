@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     { name: "Name Report", link: "project.html" },
                     { name: "Daily Schedule", link: "employee.html" },
                     { name: "Overtime", link: "overtime.html" },
+                    { name: "Yield", link: "new_yield.html" },
+                    { name: "Transfer", link: "transfer.html" },
                     { name: "Wip/Tower/Sleeving Verification", link: "buil_master_task.html" },
                     { name: "Addon/ De-Coupled Add on", link: "sot.html" },
                     { name: "Portion/Cooking Verification", link: "verificationv1.html" }
@@ -79,6 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     { name: "Equipment View", link: "display_planning.html" },
                     { name: "Jen", link: "master_task_view.html" },
                     { name: "Monitor", link: "air.html" },
+                    { name: "Transfer", link: "transfer.html" },
+                    { name: "Yield", link: "new_yield.html" },
                     { name: "Dashboard", link: "daily_productionv2.html" },
                     { name: "Scan Production", link: "production_report.html" },
                     { name: "Daily Planning", link: "daily_planning_v2.html" },

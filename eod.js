@@ -513,6 +513,46 @@ copyAllButton.addEventListener('click', () => {
         tempTable.appendChild(clonedRow);
     });
 
+    // Calculate totals for Project Hours and Duration
+    let totalProjectHours = 0;
+    let totalDuration = 0;
+
+    filteredData.forEach(item => {
+        const projectHoursNum = parseFloat(item['Project Hours']);
+        const durationNum = parseFloat(item.Duration);
+
+        if (!isNaN(projectHoursNum)) {
+            totalProjectHours += projectHoursNum;
+        }
+
+        if (!isNaN(durationNum)) {
+            totalDuration += durationNum;
+        }
+    });
+
+    // Create a new row for totals
+    const totalRow = document.createElement('tr');
+    totalRow.style.backgroundColor = 'lightblue';
+
+    // Create cells for the total row
+    const totalCells = Array.from({ length: 13 }, (_, index) => {
+        const cell = document.createElement('td');
+        cell.style.border = '1px solid #000';
+        cell.style.padding = '5px';
+        if (index === 6) { // Project Hours column
+            cell.textContent = totalProjectHours.toFixed(2);
+        } else if (index === 9) { // Duration column
+            cell.textContent = totalDuration.toFixed(2);
+        }
+        return cell;
+    });
+
+    // Append cells to the total row
+    totalCells.forEach(cell => totalRow.appendChild(cell));
+
+    // Append the total row to the tempTable
+    tempTable.appendChild(totalRow);
+
     // Append the tempTable to tempContainer
     tempContainer.appendChild(tempTable);
 

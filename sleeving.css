@@ -27,8 +27,8 @@
     cursor: pointer;
   }
   
-  /* Table styles */
-  .data-table {
+
+  /* .data-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
@@ -45,4 +45,89 @@
   .data-table thead {
     background-color: #f2f2f2;
   }
-  
+   */
+
+   /* Table styling */
+/* Ensure table scrolls horizontally */
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 40px;
+  table-layout: auto; /* Allow columns to size dynamically */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Table headers */
+th {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 12px 15px;
+}
+
+/* Table data */
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 16px;
+  text-align: left;
+  background-color: #fff;
+  color: #333;
+  white-space: normal; /* Allow text wrapping */
+  word-wrap: break-word; /* Ensures words break correctly */
+  overflow-wrap: break-word; /* Alternative */
+  min-width: 70px; /* Set a minimum width so cells don’t shrink too much */
+  max-width: 300px; /* Prevent columns from getting too wide */
+  line-height: 1.4; /* Improve spacing */
+}
+
+/* Make specific columns wider */
+td:nth-child(5) { /* Adjust this for the column you want to expand */
+  min-width: 250px;
+  max-width: 400px;
+}
+
+/* Make specific columns wider */
+td:nth-child(18),
+td:nth-child(19),
+td:nth-child(28),
+td:nth-child(30),
+td:nth-child(32),
+td:nth-child(33),
+td:nth-child(34),
+td:nth-child(35),
+td:nth-child(36),
+td:nth-child(37),
+td:nth-child(38),
+td:nth-child(39),
+td:nth-child(40) {
+    min-width: 150px;  /* Minimum width for better visibility */
+    max-width: 300px;  /* Maximum width to prevent excessive stretching */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; /* Ensure text wraps correctly */
+}
+
+
+/* Alternating row colors */
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #e6f7ff; /* Light blue shade for even rows */
+}
+
+/* Row hover effect */
+tbody tr:hover {
+  background-color: #e0f7fa;
+}
